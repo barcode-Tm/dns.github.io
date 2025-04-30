@@ -559,6 +559,21 @@
             "Qatar": { flag: "🇶🇦", ipRange: "82", region: "Doha", dataCenter: "Google Cloud", basePing: 88 }
         };
 
+        const additionalDNS = [
+            { ip: "78.157.42.100", region: "Unknown", dataCenter: "Custom DNS 1", basePing: 70 },
+            { ip: "173.239.196.175", region: "Unknown", dataCenter: "Custom DNS 1", basePing: 110 },
+            { ip: "5.250.252.150", region: "Unknown", dataCenter: "Custom DNS 2", basePing: 75 },
+            { ip: "78.157.42.101", region: "Unknown", dataCenter: "Custom DNS 3", basePing: 70 },
+            { ip: "10.202.10.10", region: "Unknown", dataCenter: "Custom DNS 4", basePing: 80 },
+            { ip: "10.202.10.11", region: "Unknown", dataCenter: "Custom DNS 4", basePing: 80 },
+            { ip: "5.160.132.221", region: "Unknown", dataCenter: "Custom DNS 5", basePing: 85 },
+            { ip: "5.160.132.222", region: "Unknown", dataCenter: "Custom DNS 5", basePing: 85 },
+            { ip: "178.22.122.100", region: "Unknown", dataCenter: "Custom DNS 6", basePing: 90 },
+            { ip: "185.51.200.2", region: "Unknown", dataCenter: "Custom DNS 6", basePing: 95 },
+            { ip: "185.55.226.26", region: "Unknown", dataCenter: "Custom DNS 7", basePing: 100 },
+            { ip: "185.55.226.25", region: "Unknown", dataCenter: "Custom DNS 7", basePing: 100 }
+        ];
+
         let pingResults = [];
         let pingChart = null;
         let userIPData = null;
@@ -608,8 +623,7 @@
             return `${baseIp}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
         }
 
-        function simulateRealisticPing(country) {
-            const basePing = countries[country].basePing;
+        function simulateRealisticPing(basePing) {
             const latencyVariation = Math.floor(Math.random() * 20) - 5;
             const connectionQuality = Math.random();
             let qualityFactor = connectionQuality < 0.1 ? 1.5 : connectionQuality > 0.85 ? 0.9 : 1;
@@ -656,20 +670,19 @@
             }, 1500);
         }
 
-        async function simulateComprehensivePingTest() {
+        async function simulateComprehensivePingTest(totalTests) {
             const pingElement = document.createElement('div');
             pingElement.className = 'fixed top-0 left-0 w-full bg-blue-500 text-white text-center py-2 z-50';
             pingElement.innerHTML = 'در حال انجام تست پینگ... <span id="pingProgressPercent">0%</span>';
             document.body.appendChild(pingElement);
             const progressSpan = document.getElementById('pingProgressPercent');
             let completedTests = 0;
-            const totalTests = Object.keys(countries).length;
             for (let i = 0; i < 5; i++) {
                 await new Promise(resolve => setTimeout(resolve, 300));
                 const progress = Math.min(100, Math.round((i / 5) * 20));
                 progressSpan.textContent = `${progress}%`;
             }
-            for (let country in countries) {
+            for (let i = 0; i < totalTests; i++) {
                 const testTime = 100 + Math.random() * 400;
                 await new Promise(resolve => setTimeout(resolve, testTime));
                 completedTests++;
@@ -693,7 +706,8 @@
                     </td>
                 </tr>
             `;
-            await simulateComprehensivePingTest();
+            const totalTests = Object.keys(countries).length + additionalDNS.length;
+            await simulateComprehensivePingTest(totalTests);
             let results = [];
             let bestPing = 9999;
             let bestCountry = "";
@@ -702,7 +716,7 @@
             let suitableServers = 0;
             for (let country in countries) {
                 let ip = generateRandomIP(country);
-                let ping = simulateRealisticPing(country);
+                let ping = simulateRealisticPing(countries[country].basePing);
                 totalPing += ping;
                 let result = {
                     country: country,
@@ -718,6 +732,27 @@
                     bestPing = ping;
                     bestCountry = country;
                     bestIP = ip;
+                }
+                if (ping < 100) suitableServers++;
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
+            for (let dns of additionalDNS) {
+                let ping = simulateRealisticPing(dns.basePing);
+                totalPing += ping;
+                let result = {
+                    country: "Custom",
+                    flag: "🌐",
+                    ip: dns.ip,
+                    region: dns.region,
+                    dataCenter: dns.dataCenter,
+                    ping: ping,
+                    suitable: ping < 100
+                };
+                results.push(result);
+                if (ping < bestPing) {
+                    bestPing = ping;
+                    bestCountry = "Custom";
+                    bestIP = dns.ip;
                 }
                 if (ping < 100) suitableServers++;
                 await new Promise(resolve => setTimeout(resolve, 50));
@@ -780,12 +815,12 @@
             }
         }
 
-        function updateStats(bestCountry, bestPing, totalPing, totalCountries, suitableServers, bestIP) {
-            const avgPing = Math.round(totalPing / totalCountries);
-            document.getElementById("bestPingInfo").innerHTML = `<div class="font-bold text-2xl ping-good mb-1">${bestPing} ms</div><div class="text-gray-600">${bestCountry} ${countries[bestCountry].flag}</div>`;
+        function updateStats(bestCountry, bestPing, totalPing, totalServers, suitableServers, bestIP) {
+            const avgPing = Math.round(totalPing / totalServers);
+            document.getElementById("bestPingInfo").innerHTML = `<div class="font-bold text-2xl ping-good mb-1">${bestPing} ms</div><div class="text-gray-600">${bestCountry} ${bestCountry !== "Custom" ? countries[bestCountry].flag : "🌐"}</div>`;
             let avgPingClass = avgPing < 80 ? "ping-good" : avgPing < 120 ? "ping-medium" : "ping-bad";
             document.getElementById("avgPingInfo").innerHTML = `<div class="font-bold text-2xl ${avgPingClass} mb-1">${avgPing} ms</div><div class="text-gray-600">میانگین پینگ تمام سرورها</div>`;
-            document.getElementById("suitableServersInfo").innerHTML = `<div class="font-bold text-2xl text-purple-600 mb-1">${suitableServers}</div><div class="text-gray-600">از مجموع ${totalCountries} سرور</div>`;
+            document.getElementById("suitableServersInfo").innerHTML = `<div class="font-bold text-2xl text-purple-600 mb-1">${suitableServers}</div><div class="text-gray-600">از مجموع ${totalServers} سرور</div>`;
         }
 
         function updateChart(results) {
@@ -818,8 +853,8 @@
                                 label: function(context) { return `پینگ: ${context.raw} میلی‌ثانیه`; },
                                 afterLabel: function(context) {
                                     const index = context.dataIndex;
-                                    const country = topResults[index];
-                                    return `منطقه: ${country.region}, سرور: ${country.dataCenter}`;
+                                    const server = topResults[index];
+                                    return `منطقه: ${server.region}, سرور: ${server.dataCenter}`;
                                 }
                             }
                         }
