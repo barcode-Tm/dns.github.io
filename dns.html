@@ -27,8 +27,8 @@
         
         .stat-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            width: 150px; /* عرض ثابت برای کارت‌ها */
-            padding: 12px; /* کاهش پدینگ */
+            width: 150px;
+            padding: 12px;
         }
         
         .stat-card:hover {
@@ -52,31 +52,31 @@
         
         .container-stats {
             display: flex;
-            flex-direction: row; /* چیدمان افقی */
+            flex-direction: row;
             gap: 10px;
-            justify-content: center; /* وسط‌چین کردن کارت‌ها */
-            align-items: stretch; /* هم‌ترازی عمودی */
+            justify-content: center;
+            align-items: stretch;
             margin-bottom: 2rem;
         }
         
         @media (max-width: 768px) {
             .container-stats {
-                flex-direction: row; /* همچنان افقی در موبایل */
-                flex-wrap: nowrap; /* جلوگیری از شکستن خط */
+                flex-direction: row;
+                flex-wrap: nowrap;
                 gap: 8px;
             }
             .stat-card {
-                width: 120px; /* عرض کمتر در موبایل */
+                width: 120px;
                 padding: 10px;
             }
             .stat-card h3 {
-                font-size: 0.9rem; /* فونت کوچک‌تر */
+                font-size: 0.9rem;
             }
             .stat-card .text-2xl {
-                font-size: 1.25rem; /* کاهش اندازه فونت عدد */
+                font-size: 1.25rem;
             }
             .stat-card .text-sm {
-                font-size: 0.75rem; /* کاهش اندازه فونت متن */
+                font-size: 0.75rem;
             }
         }
 
@@ -138,16 +138,62 @@
         }
         
         table th, table td {
-            padding: 0.5rem;
+            padding: 0.4rem;
             text-align: center;
+            font-size: 0.9rem;
         }
         
         .flag-icon {
-            width: 24px;
-            height: 18px;
+            width: 20px;
+            height: 15px;
             display: inline-block;
             vertical-align: middle;
-            margin-left: 5px;
+            margin-left: 4px;
+        }
+        
+        /* استایل‌های جدول برای موبایل */
+        .result-table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        table {
+            min-width: 100%;
+            font-size: 0.85rem;
+        }
+        
+        table th {
+            font-size: 0.8rem;
+            padding: 0.3rem;
+            white-space: nowrap;
+        }
+        
+        table td {
+            padding: 0.3rem;
+            font-size: 0.8rem;
+        }
+        
+        .copyable {
+            padding: 0.2rem 0.4rem;
+            font-size: 0.75rem;
+        }
+        
+        @media (max-width: 768px) {
+            table th, table td {
+                padding: 0.2rem;
+                font-size: 0.7rem;
+            }
+            .flag-icon {
+                width: 16px;
+                height: 12px;
+            }
+            .copyable {
+                padding: 0.15rem 0.3rem;
+                font-size: 0.65rem;
+            }
+            table th {
+                font-size: 0.7rem;
+            }
         }
         
         /* Custom scrollbar */
@@ -228,7 +274,7 @@
         </div>
         
         <!-- جدول نتایج -->
-        <div class="bg-white rounded-lg shadow-md mb-8 overflow-x-auto">
+        <div class="result-table-container bg-white rounded-lg shadow-md mb-8 overflow-x-auto">
             <table class="w-full border-collapse">
                 <thead>
                     <tr class="bg-gray-100">
@@ -583,7 +629,7 @@
         function updateStats(bestCountry, bestPing, totalPing, totalCountries, suitableServers, bestIP) {
             const avgPing = Math.round(totalPing / totalCountries);
             
-            const bestPingInfo = document.getElementById("bestPingInfo");
+            const bestPingInfoLucifer = document.getElementById("bestPingInfo");
             bestPingInfo.innerHTML = `
                 <div class="font-bold text-2xl ping-good mb-1">${bestPing} ms</div>
                 <div class="text-gray-600">${bestCountry} ${countries[bestCountry].flag}</div>
