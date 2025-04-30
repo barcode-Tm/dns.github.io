@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>بهترین DNS برای بازی موبایل | کاهش پینگ</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@ incoherent6.0.0/css/all.min.css">
     <style>
         @font-face {
             font-family: 'Vazir';
@@ -13,206 +13,62 @@
             font-weight: normal;
             font-style: normal;
         }
-        
-        * {
-            font-family: 'Vazir', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
+
         body {
+            font-family: 'Vazir', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: #f8f9fa;
             color: #333;
-            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .ping-good { color: #10b981; }
+        .ping-medium { color: #f59e0b; }
+        .ping-bad { color: #ef4444; }
+        
+        .stat-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .ping-meter {
-            height: 6px;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-        
-        .ping-meter-fill {
-            height: 100%;
-            transition: width 0.5s ease-in-out;
-        }
-        
-        .ip-cell {
-            position: relative;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            padding: 0.5rem;
-            border-radius: 0.375rem;
-        }
-        
-        .ip-cell:hover {
-            background-color: #e9ecef;
-        }
-        
-        .ip-cell::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: currentColor;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            border-radius: 0.375rem;
-        }
-        
-        .ip-cell.copied::after {
-            opacity: 0.1;
-            animation: pulse 1s;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 0.2; }
-            100% { opacity: 0; }
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        
-        table {
-            min-width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-        
-        th {
-            background-color: #f1f5f9;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        
-        tbody tr {
-            transition: background-color 0.2s ease;
-        }
-        
-        tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .dns-item {
-            position: relative;
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-        
-        .dns-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        
-        .dns-item.copied {
-            background-color: #48bb78 !important;
-            color: white !important;
-        }
-        
-        .dns-item.copied::before {
-            content: "کپی شد!";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #48bb78;
-            color: white;
-            animation: fadeIn 0.3s ease forwards;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .button-primary {
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .button-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 120, 255, 0.3);
-        }
-        
-        .button-primary:active {
-            transform: translateY(0);
-        }
-        
-        .button-primary::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-        }
-        
-        .button-primary:active::after {
-            opacity: 1;
-            animation: ripple 0.6s ease-out;
-        }
-        
-        @keyframes ripple {
-            0% {
-                transform: scale(0, 0);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(20, 20);
-                opacity: 0;
-            }
-        }
-        
-        .stats-container {
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-        }
-        
-        .stats-container:hover {
+        .stat-card:hover {
+            transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
         
-        .loading-spinner {
-            display: inline-block;
-            width: 1.5rem;
-            height: 1.5rem;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
+        .copyable {
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .copyable:hover {
+            background-color: rgba(59, 130, 246, 0.1);
         }
         
-        /* Tooltip styles */
+        .chart-container {
+            max-height: 250px;
+            width: 100%;
+        }
+        
+        .container-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        
+        @media (max-width: 768px) {
+            .container-stats {
+                flex-direction: column;
+            }
+        }
+
         .tooltip {
             position: relative;
             display: inline-block;
         }
-        
+
         .tooltip .tooltiptext {
             visibility: hidden;
-            width: 120px;
+            width: 80px;
             background-color: #555;
             color: #fff;
             text-align: center;
@@ -222,11 +78,12 @@
             z-index: 1;
             bottom: 125%;
             left: 50%;
-            margin-left: -60px;
+            margin-left: -40px;
             opacity: 0;
             transition: opacity 0.3s;
+            font-size: 12px;
         }
-        
+
         .tooltip .tooltiptext::after {
             content: "";
             position: absolute;
@@ -238,221 +95,347 @@
             border-color: #555 transparent transparent transparent;
         }
         
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
+        .dns-container {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid #3b82f6;
+            color: #3b82f6;
+        }
+        
+        table th, table td {
+            padding: 0.5rem;
+            text-align: center;
+        }
+        
+        .flag-icon {
+            width: 24px;
+            height: 18px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
         }
     </style>
 </head>
-<body class="p-3 md:p-6 lg:p-8">
-    <main class="max-w-4xl mx-auto">
-        <header class="mb-8 text-center">
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3 flex items-center justify-center">
-                <i class="fas fa-gamepad text-blue-600 mr-2"></i>
+<body class="bg-gray-50 min-h-screen p-4">
+    <div class="max-w-7xl mx-auto bg-white shadow-md rounded-lg p-6 mb-10">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2 flex items-center justify-center">
+                <i class="fas fa-gamepad text-blue-500 mr-2"></i>
                 بهترین DNS برای بازی‌های موبایل
-                <i class="fas fa-signal text-blue-600 ml-2"></i>
+                <i class="fas fa-signal text-blue-500 ml-2"></i>
             </h1>
-            <p class="text-gray-600 max-w-2xl mx-auto">
-                با استفاده از این ابزار، بهترین سرورهای DNS را برای کاهش پینگ و بهبود تجربه بازی پیدا کنید.
-            </p>
+            <p class="text-gray-600">کاهش پینگ و بهبود تجربه بازی با استفاده از DNS مناسب</p>
+            <div class="mt-4">
+                <button id="checkBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center mx-auto">
+                    <i class="fas fa-search-location mr-2"></i>
+                    بررسی بهترین سرور
+                </button>
+            </div>
         </header>
         
-        <div class="mb-6 text-center">
-            <button id="checkButton" class="button-primary bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
-                <i class="fas fa-search mr-2"></i>
-                بررسی کشورها و پینگ
-            </button>
-        </div>
-        
-        <div id="loadingIndicator" class="hidden mb-6 text-center">
-            <div class="bg-blue-100 text-blue-700 p-4 rounded-lg inline-flex items-center">
-                <div class="loading-spinner mr-3"></div>
-                <span>در حال بررسی سرورها...</span>
-            </div>
-        </div>
-        
-        <div id="statsSection" class="hidden mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="stats-container bg-gradient-to-r from-green-400 to-green-600 text-white p-4 text-center">
-                <div class="text-xl font-bold mb-1">بهترین پینگ</div>
-                <div class="flex items-center justify-center">
-                    <i class="fas fa-bolt mr-2"></i>
-                    <span id="bestPingValue" class="text-2xl">-</span>
-                    <span class="text-sm ml-1">ms</span>
+        <!-- آمار و اطلاعات خلاصه -->
+        <div class="container-stats mb-8">
+            <!-- کارت بهترین پینگ -->
+            <div class="stat-card bg-white rounded-lg shadow p-4 flex-1 min-w-[250px]">
+                <h3 class="text-lg font-semibold mb-2 text-center text-gray-700 border-b pb-2">
+                    <i class="fas fa-trophy text-yellow-500 mr-1"></i>
+                    بهترین پینگ
+                </h3>
+                <div class="text-center" id="bestPingInfo">
+                    <div class="font-bold text-2xl ping-good mb-1">-- ms</div>
+                    <div class="text-gray-600 text-sm">در انتظار بررسی...</div>
                 </div>
-                <div id="bestCountryName" class="mt-2 text-sm">-</div>
             </div>
             
-            <div class="stats-container bg-gradient-to-r from-blue-400 to-blue-600 text-white p-4 text-center">
-                <div class="text-xl font-bold mb-1">میانگین پینگ</div>
-                <div class="flex items-center justify-center">
-                    <i class="fas fa-tachometer-alt mr-2"></i>
-                    <span id="avgPingValue" class="text-2xl">-</span>
-                    <span class="text-sm ml-1">ms</span>
+            <!-- کارت میانگین پینگ -->
+            <div class="stat-card bg-white rounded-lg shadow p-4 flex-1 min-w-[250px]">
+                <h3 class="text-lg font-semibold mb-2 text-center text-gray-700 border-b pb-2">
+                    <i class="fas fa-chart-line text-blue-500 mr-1"></i>
+                    میانگین پینگ
+                </h3>
+                <div class="text-center" id="avgPingInfo">
+                    <div class="font-bold text-2xl ping-medium mb-1">-- ms</div>
+                    <div class="text-gray-600 text-sm">در انتظار بررسی...</div>
                 </div>
-                <div class="mt-2 text-sm">از تمام سرورها</div>
             </div>
             
-            <div class="stats-container bg-gradient-to-r from-purple-400 to-purple-600 text-white p-4 text-center">
-                <div class="text-xl font-bold mb-1">سرورهای مناسب</div>
-                <div class="flex items-center justify-center">
-                    <i class="fas fa-check-circle mr-2"></i>
-                    <span id="goodServersValue" class="text-2xl">-</span>
-                    <span class="text-sm ml-1">سرور</span>
+            <!-- کارت سرورهای مناسب -->
+            <div class="stat-card bg-white rounded-lg shadow p-4 flex-1 min-w-[250px]">
+                <h3 class="text-lg font-semibold mb-2 text-center text-gray-700 border-b pb-2">
+                    <i class="fas fa-server text-purple-500 mr-1"></i>
+                    سرورهای مناسب
+                </h3>
+                <div class="text-center" id="suitableServersInfo">
+                    <div class="font-bold text-2xl text-gray-700 mb-1">0</div>
+                    <div class="text-gray-600 text-sm">در انتظار بررسی...</div>
                 </div>
-                <div class="mt-2 text-sm">پینگ زیر 80 میلی‌ثانیه</div>
             </div>
         </div>
         
-        <div class="table-container bg-white mb-8">
-            <table class="w-full">
+        <!-- جدول نتایج -->
+        <div class="bg-white rounded-lg shadow-md mb-8 overflow-x-auto">
+            <table class="w-full border-collapse">
                 <thead>
-                    <tr>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-gray-700">کشور</th>
-                        <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">پرچم</th>
-                        <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">IPv4</th>
-                        <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">پینگ</th>
-                        <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">وضعیت</th>
+                    <tr class="bg-gray-100">
+                        <th class="border-b">کشور</th>
+                        <th class="border-b">پرچم</th>
+                        <th class="border-b">IPv4</th>
+                        <th class="border-b">پینگ (ms)</th>
+                        <th class="border-b">وضعیت</th>
                     </tr>
                 </thead>
-                <tbody id="resultTable"></tbody>
+                <tbody id="resultTable">
+                    <tr class="text-center text-gray-500">
+                        <td colspan="5" class="py-8">
+                            <i class="fas fa-spinner fa-pulse text-blue-500 text-2xl mb-2"></i>
+                            <p>لطفاً روی دکمه بررسی کلیک کنید</p>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
         
-        <div class="mb-8">
-            <h2 class="text-xl font-bold mb-4 flex items-center">
-                <i class="fas fa-server text-green-500 mr-2"></i>
-                سرورهای DNS پیشنهادی
-            </h2>
-            
-            <div id="dns-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold mb-3 text-blue-600">
-                        <i class="fas fa-globe mr-2"></i>
-                        سرورهای DNS عمومی
-                    </h3>
-                    <div id="publicDnsList" class="space-y-2">
-                        <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between">
-                            <span>8.8.8.8</span>
-                            <i class="fas fa-copy text-gray-500"></i>
-                        </div>
-                        <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between">
-                            <span>8.8.4.4</span>
-                            <i class="fas fa-copy text-gray-500"></i>
-                        </div>
-                        <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between">
-                            <span>1.1.1.1</span>
-                            <i class="fas fa-copy text-gray-500"></i>
-                        </div>
-                        <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between">
-                            <span>1.0.0.1</span>
-                            <i class="fas fa-copy text-gray-500"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-semibold mb-3 text-green-600">
-                        <i class="fas fa-gamepad mr-2"></i>
-                        سرورهای DNS مناسب گیمینگ
-                    </h3>
-                    <div id="gamingDnsList" class="space-y-2"></div>
-                </div>
+        <!-- نمودار مقایسه پینگ کشورها -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-8">
+            <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
+                <i class="fas fa-chart-bar text-blue-500 mr-1"></i>
+                مقایسه پینگ کشورها
+            </h3>
+            <div class="chart-container">
+                <canvas id="pingChart"></canvas>
             </div>
         </div>
         
-        <div id="gameVerdict" class="hidden mb-8 p-5 bg-white rounded-lg shadow-md text-center text-lg font-bold"></div>
-        
-        <div class="mb-8 bg-white p-5 rounded-lg shadow-md">
-            <h2 class="text-xl font-bold mb-4 flex items-center">
-                <i class="fas fa-question-circle text-blue-500 mr-2"></i>
-                راهنمای استفاده
-            </h2>
-            
-            <div class="space-y-4 text-gray-700">
-                <div>
-                    <h3 class="font-semibold text-lg mb-1">چگونه از DNS استفاده کنم؟</h3>
-                    <p>برای استفاده از سرورهای DNS پیشنهادی، آدرس IP را کپی کرده و در تنظیمات شبکه دستگاه خود وارد کنید. برای اطلاعات بیشتر به منابع آنلاین مراجعه کنید.</p>
+        <!-- تب‌های DNS -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+            <div class="flex border-b">
+                <div class="tab tab-dns active p-3 flex-1 text-center font-medium" data-tab="dns-recommended">
+                    <i class="fas fa-star mr-1"></i>
+                    DNS های پیشنهادی
                 </div>
-                
-                <div>
-                    <h3 class="font-semibold text-lg mb-1">نکات مهم</h3>
-                    <ul class="list-disc list-inside space-y-1">
-                        <li>برای بهترین عملکرد، از سرورهای DNS با کمترین پینگ استفاده کنید.</li>
-                        <li>در برخی موارد، استفاده از سرورهای DNS رایگان ممکن است محدودیت‌هایی داشته باشد.</li>
-                        <li>اگر با یک سرور DNS مشکل داشتید، سرور دیگری را امتحان کنید.</li>
+                <div class="tab tab-dns p-3 flex-1 text-center font-medium" data-tab="dns-gaming">
+                    <i class="fas fa-gamepad mr-1"></i>
+                    DNS های عمومی
+                </div>
+                <div class="tab tab-dns p-3 flex-1 text-center font-medium" data-tab="dns-help">
+                    <i class="fas fa-question-circle mr-1"></i>
+                    راهنمای استفاده
+                </div>
+            </div>
+            
+            <!-- محتوای DNS های پیشنهادی -->
+            <div id="dns-recommended" class="tab-content active p-4 dns-container">
+                <div class="dns-list" id="recommendedDnsList">
+                    <div class="text-center text-gray-500 py-4">
+                        <i class="fas fa-spinner fa-pulse text-blue-500 mb-2"></i>
+                        <p>در انتظار بررسی سرورها...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- محتوای DNS های عمومی -->
+            <div id="dns-gaming" class="tab-content p-4 dns-container">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="bg-gray-50 rounded p-3">
+                        <h4 class="text-sm font-bold mb-2 text-blue-600">Google DNS</h4>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
+                            8.8.8.8
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded text-sm" onclick="copyText(this)">
+                            8.8.4.4
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded p-3">
+                        <h4 class="text-sm font-bold mb-2 text-blue-600">Cloudflare DNS</h4>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
+                            1.1.1.1
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded text-sm" onclick="copyText(this)">
+                            1.0.0.1
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded p-3">
+                        <h4 class="text-sm font-bold mb-2 text-blue-600">AdGuard DNS</h4>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
+                            94.140.14.14
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded text-sm" onclick="copyText(this)">
+                            94.140.15.15
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded p-3">
+                        <h4 class="text-sm font-bold mb-2 text-blue-600">Quad9 DNS</h4>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
+                            9.9.9.9
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded text-sm" onclick="copyText(this)">
+                            149.112.112.112
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- محتوای راهنمای استفاده -->
+            <div id="dns-help" class="tab-content p-4">
+                <div class="bg-blue-50 rounded-lg p-4 mb-4 text-sm">
+                    <h4 class="font-bold text-blue-700 mb-2">چگونه DNS را تغییر دهم؟</h4>
+                    <ol class="list-decimal pr-5 text-gray-700 space-y-2">
+                        <li>به تنظیمات شبکه دستگاه خود بروید</li>
+                        <li>شبکه فعال خود را انتخاب کنید</li>
+                        <li>به بخش تنظیمات پیشرفته یا تنظیمات IP بروید</li>
+                        <li>گزینه تنظیم دستی DNS را انتخاب کنید</li>
+                        <li>آدرس‌های DNS مورد نظر را وارد کنید</li>
+                        <li>تنظیمات را ذخیره کنید و شبکه را قطع و مجدداً وصل کنید</li>
+                    </ol>
+                </div>
+                <div class="bg-green-50 rounded-lg p-4 text-sm">
+                    <h4 class="font-bold text-green-700 mb-2">نکات مهم</h4>
+                    <ul class="list-disc pr-5 text-gray-700 space-y-2">
+                        <li>DNS مناسب می‌تواند تا 20% پینگ شما را کاهش دهد</li>
+                        <li>از DNS کشورهایی که نزدیک به سرور بازی شما هستند استفاده کنید</li>
+                        <li>DNS‌های مختلف را تست کنید تا بهترین عملکرد را پیدا کنید</li>
+                        <li>در صورت استفاده از VPN، تغییر DNS تأثیری در کاهش پینگ نخواهد داشت</li>
                     </ul>
                 </div>
             </div>
         </div>
-    </main>
-    
-    <footer class="max-w-4xl mx-auto mb-6 p-4 bg-white rounded-lg shadow-md text-center">
-        <div class="flex items-center justify-center mb-2">
-            <span class="text-gray-600">ساخته شده با</span>
-            <i class="fas fa-heart text-red-500 mx-1"></i>
-            <span class="text-gray-600">توسط</span>
-        </div>
-        <a href="https://t.me/barcode_Tm" target="_blank" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition">
-            <i class="fab fa-telegram mr-1"></i>
-            @barcode_Tm
-        </a>
-    </footer>
-    
+        
+        <footer class="text-center text-gray-500 mt-8 pt-4 border-t text-sm">
+            <p class="mb-2">
+                <a href="https://t.me/barcode_Tm" target="_blank" class="text-blue-500 hover:text-blue-700 transition-colors">
+                    <i class="fab fa-telegram"></i> @barcode_Tm
+                </a>
+            </p>
+            <p>تمامی حقوق محفوظ است © ۱۴۰۲</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
     <script>
-        // تعریف کشورها و پرچم‌ها
+        // تعریف کشورها با پرچم‌ها
         const countries = {
-            "فنلاند": `<svg class="h-4 w-6" viewBox="0 0 640 480"><rect fill="#fff" width="640" height="480"/><rect fill="#003087" y="186" width="640" height="108"/><rect fill="#003087" x="186" width="108" height="480"/></svg>`,
-            "سوئیس": `<svg class="h-4 w-6" viewBox="0 0 512 512"><rect fill="#DA291C" width="512" height="512"/><rect fill="#FFF" x="128" y="96" width="256" height="64"/><rect fill="#FFF" x="96" y="128" width="64" height="256"/></svg>`,
-            "بحرین": `<svg class="h-4 w-6" viewBox="0 0 1500 600"><path fill="#CE1126" d="M0 0h1500v600H0z"/><path fill="#FFF" d="M0 0v600h375l75-60 75 60 75-60 75 60 75-60 75 60 75-60 75 60 75-60 75 60v-600z"/></svg>`,
-            "قطر": `<svg class="h-4 w-6" viewBox="0 0 1400 550"><path fill="#8D1B3D" d="M0 0h1400v550H0z"/><path fill="#FFF" d="M0 0v550h350l70-61 70 61 70-61 70 61 70-61 70 61 70-61 70 61 70-61 70 61v-550z"/></svg>`,
-            "بنگلادش": `<svg class="h-4 w-6" viewBox="0 0 1000 600"><rect fill="#006A4E" width="1000" height="600"/><circle fill="#F42A41" cx="400" cy="300" r="200"/></svg>`,
-            "آلمان": `<svg class="h-4 w-6" viewBox="0 0 1000 600"><rect fill="#000" width="1000" height="200"/><rect fill="#D00" y="200" width="1000" height="200"/><rect fill="#FFCE00" y="400" width="1000" height="200"/></svg>`,
-            "سنگاپور": `<svg class="h-4 w-6" viewBox="0 0 640 480"><rect fill="#fff" width="640" height="480"/><rect fill="#df0000" y="0" width="640" height="240"/><circle fill="#fff" cx="134" cy="120" r="60"/><path fill="#df0000" d="M 110,95 A 35,35 0 0,0 160,95 A 28,28 0 0,1 146,120 A 28,28 0 0,1 124,120 A 35,35 0 0,0 110,95 Z"/><polygon fill="#fff" points="120,80 126,94 142,94 130,102 134,118 120,108 106,118 110,102 98,94 114,94"/></svg>`,
-            "ژاپن": `<svg class="h-4 w-6" viewBox="0 0 640 480"><rect fill="#fff" width="640" height="480"/><circle fill="#bc002d" cx="320" cy="240" r="96"/></svg>`
+            "Finland": {
+                flag: "🇫🇮",
+                ipRange: "193"
+            },
+            "Switzerland": {
+                flag: "🇨🇭",
+                ipRange: "185"
+            },
+            "Bahrain": {
+                flag: "🇧🇭",
+                ipRange: "157"
+            },
+            "Qatar": {
+                flag: "🇶🇦",
+                ipRange: "82"
+            },
+            "Bangladesh": {
+                flag: "🇧🇩",
+                ipRange: "103"
+            },
+            "Germany": {
+                flag: "🇩🇪",
+                ipRange: "195"
+            },
+            "Netherlands": {
+                flag: "🇳🇱",
+                ipRange: "176"
+            },
+            "Singapore": {
+                flag: "🇸🇬",
+                ipRange: "128"
+            }
         };
 
-        // تعریف رنج‌های IP برای کشورها
-        const ipRanges = {
-            "فنلاند": "193", "سوئیس": "185", "بحرین": "157",
-            "قطر": "82", "بنگلادش": "103", "آلمان": "195",
-            "سنگاپور": "178", "ژاپن": "126"
-        };
+        // تعریف متغیرهای عمومی
+        let pingResults = [];
+        let pingChart = null;
 
         // تولید IP تصادفی
         function generateRandomIP(country) {
-            let baseIp = ipRanges[country];
+            let baseIp = countries[country].ipRange;
             return `${baseIp}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
         }
 
-        // تولید پینگ تصادفی با وزن مناسب
+        // تولید پینگ تصادفی
         function getRandomPing(country) {
-            const basePings = {
-                "فنلاند": 40, "سوئیس": 55, "بحرین": 70,
-                "قطر": 85, "بنگلادش": 100, "آلمان": 60,
-                "سنگاپور": 75, "ژاپن": 90
+            const basePing = {
+                "Finland": 40,
+                "Switzerland": 50,
+                "Germany": 65,
+                "Netherlands": 70,
+                "Singapore": 95,
+                "Bahrain": 110,
+                "Qatar": 125,
+                "Bangladesh": 150
             };
             
-            const basePing = basePings[country];
-            const variation = Math.floor(Math.random() * 30) - 15; // -15 تا +15 اختلاف
-            return Math.max(5, basePing + variation);
+            const base = basePing[country] || 100;
+            const variation = Math.floor(Math.random() * 30) - 10;
+            return Math.max(15, base + variation);
         }
 
-        // کپی متن به کلیپبورد
-        function copyText(text, element) {
+        // کپی کردن متن
+        function copyText(element) {
+            const text = element.innerText.trim();
+            
             if (navigator.clipboard) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showCopiedFeedback(element);
-                }).catch(err => {
-                    console.error('خطا در کپی با API کلیپبورد: ', err);
-                    fallbackCopyText(text, element);
-                });
+                navigator.clipboard.writeText(text)
+                    .then(() => showTooltip(element))
+                    .catch(() => fallbackCopy(text, element));
             } else {
-                fallbackCopyText(text, element);
+                fallbackCopy(text, element);
             }
         }
 
         // روش جایگزین کپی برای مرورگرهای قدیمی
-        function fallbackCopyText(text, element) {
+        function fallbackCopy(text, element) {
             const textArea = document.createElement("textarea");
             textArea.value = text;
             textArea.style.position = "fixed";
@@ -463,181 +446,239 @@
             
             try {
                 document.execCommand('copy');
-                showCopiedFeedback(element);
+                showTooltip(element);
             } catch (err) {
-                console.error('خطا در کپی با execCommand: ', err);
+                console.error('کپی با خطا مواجه شد: ', err);
                 alert('خطا در کپی کردن متن!');
             }
             
             document.body.removeChild(textArea);
         }
 
-        // نمایش بازخورد کپی شدن
-        function showCopiedFeedback(element) {
-            element.classList.add('copied');
+        // نمایش تولتیپ کپی
+        function showTooltip(element) {
+            const tooltip = element.querySelector(".tooltiptext");
+            tooltip.style.visibility = "visible";
+            tooltip.style.opacity = "1";
+            
             setTimeout(() => {
-                element.classList.remove('copied');
+                tooltip.style.visibility = "hidden";
+                tooltip.style.opacity = "0";
             }, 1500);
         }
 
-        // محاسبه رنگ مناسب پینگ
-        function getPingColorClass(ping) {
-            if (ping < 50) return 'bg-green-500';
-            if (ping < 80) return 'bg-yellow-500';
-            if (ping < 120) return 'bg-orange-500';
-            return 'bg-red-500';
-        }
-
-        // تعیین حداکثر میزان پینگ
-        const MAX_PING = 200;
-
-        // محاسبه درصد عرض متناسب با پینگ
-        function calculatePingWidth(ping) {
-            return Math.min(100, (ping / MAX_PING) * 100);
-        }
-
-        // بررسی و نمایش بهترین کشور برای پینگ
+        // بررسی بهترین کشور
         async function findBestCountry() {
-            // نمایش نشانگر بارگذاری
-            document.getElementById('loadingIndicator').classList.remove('hidden');
-            document.getElementById('checkButton').classList.add('opacity-50', 'cursor-not-allowed');
-            document.getElementById('checkButton').disabled = true;
+            const checkBtn = document.getElementById("checkBtn");
+            checkBtn.disabled = true;
+            checkBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> در حال بررسی...`;
             
-            // تأخیر مصنوعی برای شبیه‌سازی بررسی سرورها
+            const resultTable = document.getElementById("resultTable");
+            resultTable.innerHTML = `
+                <tr class="text-center text-gray-500">
+                    <td colspan="5" class="py-8">
+                        <i class="fas fa-spinner fa-pulse text-blue-500 text-2xl mb-2"></i>
+                        <p>در حال بررسی سرورها...</p>
+                    </td>
+                </tr>
+            `;
+            
             await new Promise(resolve => setTimeout(resolve, 1500));
             
-            let bestCountry = "";
+            let results = [];
             let bestPing = 9999;
+            let bestCountry = "";
             let bestIP = "";
             let totalPing = 0;
-            let goodServers = 0;
-            let resultTable = document.getElementById("resultTable");
-            let gameVerdict = document.getElementById("gameVerdict");
-            resultTable.innerHTML = "";
-
-            // تولید نتایج برای هر کشور
+            let suitableServers = 0;
+            
             for (let country in countries) {
                 let ip = generateRandomIP(country);
                 let ping = getRandomPing(country);
                 totalPing += ping;
                 
-                if (ping < 80) goodServers++;
-
-                let pingColorClass = getPingColorClass(ping);
-                let pingWidthPercent = calculatePingWidth(ping);
+                let result = {
+                    country: country,
+                    flag: countries[country].flag,
+                    ip: ip,
+                    ping: ping,
+                    suitable: ping < 100
+                };
                 
-                let gameStatus = ping < 80 
-                    ? `<span class="text-green-500 flex items-center"><i class="fas fa-check-circle mr-1"></i> مناسب گیمینگ</span>` 
-                    : `<span class="text-red-500 flex items-center"><i class="fas fa-times-circle mr-1"></i> نامناسب</span>`;
-
-                resultTable.innerHTML += `
-                    <tr class="border-b border-gray-100">
-                        <td class="px-4 py-3 text-gray-800">${country}</td>
-                        <td class="px-4 py-3 text-center">${countries[country]}</td>
-                        <td class="px-4 py-3">
-                            <div class="ip-cell tooltip" onclick="copyText('${ip}', this)">
-                                <span class="tooltiptext">برای کپی کلیک کنید</span>
-                                <div class="flex items-center justify-between">
-                                    <span>${ip}</span>
-                                    <i class="fas fa-copy text-gray-400"></i>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-4 py-3">
-                            <div class="text-center font-semibold ${ping < 50 ? 'text-green-600' : ping < 80 ? 'text-yellow-600' : ping < 120 ? 'text-orange-600' : 'text-red-600'}">
-                                ${ping} ms
-                                <div class="ping-meter bg-gray-200">
-                                    <div class="ping-meter-fill ${pingColorClass}" style="width: ${pingWidthPercent}%"></div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-4 py-3 text-center">${gameStatus}</td>
-                    </tr>
-                `;
-
+                results.push(result);
+                
                 if (ping < bestPing) {
                     bestPing = ping;
                     bestCountry = country;
                     bestIP = ip;
                 }
+                
+                if (ping < 100) {
+                    suitableServers++;
+                }
             }
             
-            // بروزرسانی بخش آمار
-            document.getElementById('statsSection').classList.remove('hidden');
-            document.getElementById('bestPingValue').textContent = bestPing;
-            document.getElementById('bestCountryName').textContent = bestCountry;
-            document.getElementById('avgPingValue').textContent = Math.round(totalPing / Object.keys(countries).length);
-            document.getElementById('goodServersValue').textContent = goodServers;
+            results.sort((a, b) => a.ping - b.ping);
+            pingResults = results;
             
-            // نمایش سرورهای DNS مناسب گیمینگ
-            const gamingDnsList = document.getElementById("gamingDnsList");
-            gamingDnsList.innerHTML = `
-                <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between" onclick="copyText('${bestIP}', this)">
-                    <span>${bestIP}</span>
-                    <div class="flex items-center">
-                        <span class="text-xs text-green-500 ml-2">${bestPing} ms</span>
-                        <i class="fas fa-copy text-gray-500"></i>
-                    </div>
-                </div>
-                <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between" onclick="copyText('${generateRandomIP(bestCountry)}', this)">
-                    <span>${generateRandomIP(bestCountry)}</span>
-                    <i class="fas fa-copy text-gray-500"></i>
-                </div>
-                <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between" onclick="copyText('2001:4860:4860::' + Math.floor(1000 + Math.random() * 8999), this)">
-                    <span>2001:4860:4860::${Math.floor(1000 + Math.random() * 8999)}</span>
-                    <i class="fas fa-copy text-gray-500"></i>
-                </div>
-                <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between" onclick="copyText('2001:4860:4860::' + Math.floor(1000 + Math.random() * 8999), this)">
-                    <span>2001:4860:4860::${Math.floor(1000 + Math.random() * 8999)}</span>
-                    <i class="fas fa-copy text-gray-500"></i>
-                </div>
+            displayResults(results);
+            updateStats(bestCountry, bestPing, totalPing, results.length, suitableServers, bestIP);
+            updateChart(results);
+            updateRecommendedDNS(bestIP, results);
+            
+            checkBtn.disabled = false;
+            checkBtn.innerHTML = `<i class="fas fa-search-location mr-2"></i> بررسی مجدد`;
+        }
+
+        // نمایش نتایج در جدول
+        function displayResults(results) {
+            const resultTable = document.getElementById("resultTable");
+            resultTable.innerHTML = "";
+            
+            results.forEach(result => {
+                let pingClass = result.ping < 80 ? "ping-good" : result.ping < 120 ? "ping-medium" : "ping-bad";
+                let statusIcon = result.ping < 100 
+                    ? `<i class="fas fa-check-circle text-green-500"></i> مناسب برای بازی` 
+                    : `<i class="fas fa-times-circle text-red-500"></i> نامناسب برای بازی`;
+                
+                resultTable.innerHTML += `
+                    <tr class="border-b hover:bg-gray-50 ${result.suitable ? 'good-ping' : 'bad-ping'}">
+                        <td class="py-3">${result.country}</td>
+                        <td class="py-3">
+                            <span class="text-xl">${result.flag}</span>
+                        </td>
+                        <td class="py-3">
+                            <div class="tooltip copyable inline-block px-3 py-1 bg-gray-100 rounded" onclick="copyText(this)">
+                                ${result.ip}
+                                <span class="tooltiptext">کپی شد!</span>
+                            </div>
+                        </td>
+                        <td class="py-3 ${pingClass} font-bold">${result.ping} ms</td>
+                        <td class="py-3">${statusIcon}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        // بروزرسانی آمار
+        function updateStats(bestCountry, bestPing, totalPing, totalCountries, suitableServers, bestIP) {
+            const avgPing = Math.round(totalPing / totalCountries);
+            
+            const bestPingInfo = document.getElementById("bestPingInfo");
+            bestPingInfo.innerHTML = `
+                <div class="font-bold text-2xl ping-good mb-1">${bestPing} ms</div>
+                <div class="text-gray-600">${bestCountry} ${countries[bestCountry].flag}</div>
             `;
             
-            // نمایش نتیجه‌گیری نهایی
-            gameVerdict.classList.remove('hidden');
-            if (bestPing < 80) {
-                gameVerdict.innerHTML = `
-                    <div class="flex items-center justify-center text-green-600">
-                        <i class="fas fa-gamepad text-2xl mr-2"></i>
-                        <span>${bestCountry} با پینگ ${bestPing} میلی‌ثانیه بهترین گزینه برای گیمینگ است!</span>
-                        <i class="fas fa-gamepad text-2xl ml-2"></i>
-                    </div>
-                `;
-                gameVerdict.classList.add('bg-green-50', 'border', 'border-green-200');
-                gameVerdict.classList.remove('bg-red-50', 'border-red-200');
-            } else {
-                gameVerdict.innerHTML = `
-                    <div class="flex items-center justify-center text-red-600">
-                        <i class="fas fa-exclamation-triangle text-2xl mr-2"></i>
-                        <span>هیچ کشوری با پینگ مناسب برای گیمینگ پیدا نشد!</span>
-                        <i class="fas fa-exclamation-triangle text-2xl ml-2"></i>
-                    </div>
-                `;
-                gameVerdict.classList.add('bg-red-50', 'border', 'border-red-200');
-                gameVerdict.classList.remove('bg-green-50', 'border-green-200');
+            const avgPingInfo = document.getElementById("avgPingInfo");
+            let avgPingClass = avgPing < 80 ? "ping-good" : avgPing < 120 ? "ping-medium" : "ping-bad";
+            avgPingInfo.innerHTML = `
+                <div class="font-bold text-2xl ${avgPingClass} mb-1">${avgPing} ms</div>
+                <div class="text-gray-600">میانگین پینگ تمام سرورها</div>
+            `;
+            
+            const suitableServersInfo = document.getElementById("suitableServersInfo");
+            suitableServersInfo.innerHTML = `
+                <div class="font-bold text-2xl text-purple-600 mb-1">${suitableServers}</div>
+                <div class="text-gray-600">از مجموع ${totalCountries} سرور</div>
+            `;
+        }
+
+        // بروزرسانی نمودار
+        function updateChart(results) {
+            const ctx = document.getElementById('pingChart').getContext('2d');
+            
+            if (pingChart) {
+                pingChart.destroy();
             }
             
-            // پنهان کردن نشانگر بارگذاری
-            document.getElementById('loadingIndicator').classList.add('hidden');
-            document.getElementById('checkButton').classList.remove('opacity-50', 'cursor-not-allowed');
-            document.getElementById('checkButton').disabled = false;
+            const labels = results.map(r => r.country);
+            const data = results.map(r => r.ping);
+            const backgroundColors = results.map(r => r.ping < 80 ? 'rgba(16, 185, 129, 0.7)' : r.ping < 120 ? 'rgba(245, 158, 11, 0.7)' : 'rgba(239, 68, 68, 0.7)');
+            
+            pingChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'پینگ (میلی‌ثانیه)',
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderColor: backgroundColors.map(c => c.replace('0.7', '1')),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'پینگ (میلی‌ثانیه)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
         }
-        
-        // اضافه کردن رویداد کلیک به دکمه بررسی
-        document.getElementById('checkButton').addEventListener('click', findBestCountry);
-        
-        // اضافه کردن رویداد کلیک به DNS های عمومی
-        document.querySelectorAll('#publicDnsList .dns-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const ipText = this.querySelector('span').textContent;
-                copyText(ipText, this);
+
+        // بروزرسانی DNS های پیشنهادی
+        function updateRecommendedDNS(bestIP, results) {
+            const recommendedDnsList = document.getElementById("recommendedDnsList");
+            const goodServers = results.filter(r => r.suitable);
+            
+            if (goodServers.length === 0) {
+                recommendedDnsList.innerHTML = `
+                    <div class="bg-red-50 p-4 rounded text-center">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-xl mb-2"></i>
+                        <p class="text-red-700">هیچ سروری با پینگ مناسب یافت نشد!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            recommendedDnsList.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    ${goodServers.map((server, index) => `
+                        <div class="bg-gray-50 rounded p-3">
+                            <h4 class="text-sm font-bold mb-2 text-blue-600">
+                                <span class="text-sm">${server.flag}</span> ${server.country} DNS
+                                ${index === 0 ? '<span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded ml-1">بهترین</span>' : ''}
+                            </h4>
+                            <div class="tooltip copyable bg-gray-100 p-2 rounded text-sm" onclick="copyText(this)">
+                                ${server.ip}
+                                <span class="tooltiptext">کپی شد!</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // اضافه کردن تب‌ها
+        document.querySelectorAll('.tab-dns').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab-dns').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
             });
         });
-        
-        // اجرای بررسی در هنگام بارگذاری صفحه بعد از تأخیر کوتاه
-        setTimeout(() => {
-            findBestCountry();
-        }, 500);
+
+        // رویداد کلیک روی دکمه بررسی
+        document.getElementById('checkBtn').addEventListener('click', findBestCountry);
     </script>
 </body>
 </html>
