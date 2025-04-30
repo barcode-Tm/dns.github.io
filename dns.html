@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>بهترین DNS برای بازی موبایل | کاهش پینگ</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@ incoherent6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
     <style>
         @font-face {
             font-family: 'Vazir';
@@ -27,6 +27,8 @@
         
         .stat-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 150px; /* عرض ثابت برای کارت‌ها */
+            padding: 12px; /* کاهش پدینگ */
         }
         
         .stat-card:hover {
@@ -50,14 +52,31 @@
         
         .container-stats {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: row; /* چیدمان افقی */
             gap: 10px;
-            justify-content: space-between;
+            justify-content: center; /* وسط‌چین کردن کارت‌ها */
+            align-items: stretch; /* هم‌ترازی عمودی */
+            margin-bottom: 2rem;
         }
         
         @media (max-width: 768px) {
             .container-stats {
-                flex-direction: column;
+                flex-direction: row; /* همچنان افقی در موبایل */
+                flex-wrap: nowrap; /* جلوگیری از شکستن خط */
+                gap: 8px;
+            }
+            .stat-card {
+                width: 120px; /* عرض کمتر در موبایل */
+                padding: 10px;
+            }
+            .stat-card h3 {
+                font-size: 0.9rem; /* فونت کوچک‌تر */
+            }
+            .stat-card .text-2xl {
+                font-size: 1.25rem; /* کاهش اندازه فونت عدد */
+            }
+            .stat-card .text-sm {
+                font-size: 0.75rem; /* کاهش اندازه فونت متن */
             }
         }
 
@@ -172,8 +191,8 @@
         <!-- آمار و اطلاعات خلاصه -->
         <div class="container-stats mb-8">
             <!-- کارت بهترین پینگ -->
-            <div class="stat-card bg-white rounded-lg shadow p-4 flex-1 min-w-[250px]">
-                <h3 class="text-lg font-semibold mb-2 text-center text-gray-700 border-b pb-2">
+            <div class="stat-card bg-white rounded-lg shadow p-4">
+                <h3 class="text-base font-semibold mb-2 text-center text-gray-700 border-b pb-2">
                     <i class="fas fa-trophy text-yellow-500 mr-1"></i>
                     بهترین پینگ
                 </h3>
@@ -184,8 +203,8 @@
             </div>
             
             <!-- کارت میانگین پینگ -->
-            <div class="stat-card bg-white rounded-lg shadow p-4 flex-1 min-w-[250px]">
-                <h3 class="text-lg font-semibold mb-2 text-center text-gray-700 border-b pb-2">
+            <div class="stat-card bg-white rounded-lg shadow p-4">
+                <h3 class="text-base font-semibold mb-2 text-center text-gray-700 border-b pb-2">
                     <i class="fas fa-chart-line text-blue-500 mr-1"></i>
                     میانگین پینگ
                 </h3>
@@ -196,8 +215,8 @@
             </div>
             
             <!-- کارت سرورهای مناسب -->
-            <div class="stat-card bg-white rounded-lg shadow p-4 flex-1 min-w-[250px]">
-                <h3 class="text-lg font-semibold mb-2 text-center text-gray-700 border-b pb-2">
+            <div class="stat-card bg-white rounded-lg shadow p-4">
+                <h3 class="text-base font-semibold mb-2 text-center text-gray-700 border-b pb-2">
                     <i class="fas fa-server text-purple-500 mr-1"></i>
                     سرورهای مناسب
                 </h3>
