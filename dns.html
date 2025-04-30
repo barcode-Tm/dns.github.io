@@ -215,6 +215,63 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
         }
+
+        /* Added styles for location display */
+        .location-info {
+            background-color: #f0f9ff;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .location-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .location-item {
+            background-color: #e0f2fe;
+            border-radius: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .location-item i {
+            margin-left: 0.25rem;
+            color: #0284c7;
+        }
+
+        .ping-test-result {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            background-color: #f8fafc;
+        }
+
+        .ping-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+        }
+
+        .ping-indicator.good {
+            background-color: #10b981;
+        }
+
+        .ping-indicator.medium {
+            background-color: #f59e0b;
+        }
+
+        .ping-indicator.bad {
+            background-color: #ef4444;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen p-4">
@@ -233,6 +290,24 @@
                 </button>
             </div>
         </header>
+
+        <!-- نمایش موقعیت کاربر -->
+        <div id="locationInfo" class="location-info hidden mb-6">
+            <h3 class="font-semibold text-gray-700 mb-2 flex items-center">
+                <i class="fas fa-map-marker-alt text-blue-500 ml-2"></i>
+                موقعیت شما
+            </h3>
+            <div class="location-details" id="locationDetails">
+                <div class="location-item"><i class="fas fa-globe"></i> <span id="userCountry">--</span></div>
+                <div class="location-item"><i class="fas fa-city"></i> <span id="userCity">--</span></div>
+                <div class="location-item"><i class="fas fa-map"></i> <span id="userRegion">--</span></div>
+                <div class="location-item"><i class="fas fa-wifi"></i> <span id="userISP">--</span></div>
+            </div>
+            <div class="ping-test-result">
+                <div id="pingIndicator" class="ping-indicator"></div>
+                <span id="pingStatus">آماده برای تست پینگ</span>
+            </div>
+        </div>
         
         <!-- آمار و اطلاعات خلاصه -->
         <div class="container-stats mb-8">
@@ -281,13 +356,14 @@
                         <th class="border-b">کشور</th>
                         <th class="border-b">پرچم</th>
                         <th class="border-b">IPv4</th>
+                        <th class="border-b">موقعیت</th>
                         <th class="border-b">پینگ (ms)</th>
                         <th class="border-b">وضعیت</th>
                     </tr>
                 </thead>
                 <tbody id="resultTable">
                     <tr class="text-center text-gray-500">
-                        <td colspan="5" class="py-8">
+                        <td colspan="6" class="py-8">
                             <i class="fas fa-spinner fa-pulse text-blue-500 text-2xl mb-2"></i>
                             <p>لطفاً روی دکمه بررسی کلیک کنید</p>
                         </td>
@@ -381,6 +457,51 @@
                             <span class="tooltiptext">کپی شد!</span>
                         </div>
                     </div>
+                    <!-- Added DNS Servers -->
+                    <div class="bg-gray-50 rounded p-3">
+                        <h4 class="text-sm font-bold mb-2 text-blue-600">OpenDNS</h4>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
+                            208.67.222.222
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded text-sm" onclick="copyText(this)">
+                            208.67.220.220
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded p-3">
+                        <h4 class="text-sm font-bold mb-2 text-blue-600">Comodo Secure DNS</h4>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
+                            8.26.56.26
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded text-sm" onclick="copyText(this)">
+                            8.20.247.20
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded p-3">
+                        <h4 class="text-sm font-bold mb-2 text-blue-600">CleanBrowsing</h4>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
+                            185.228.168.9
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded text-sm" onclick="copyText(this)">
+                            185.228.169.9
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded p-3">
+                        <h4 class="text-sm font-bold mb-2 text-blue-600">Norton ConnectSafe</h4>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
+                            199.85.126.10
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                        <div class="tooltip copyable bg-gray-100 p-2 rounded text-sm" onclick="copyText(this)">
+                            199.85.127.10
+                            <span class="tooltiptext">کپی شد!</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -422,45 +543,193 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
     <script>
-        // تعریف کشورها با پرچم‌ها
+        // تعریف کشورها با پرچم‌ها، موقعیت و پینگ پایه
         const countries = {
             "Finland": {
                 flag: "🇫🇮",
-                ipRange: "193"
+                ipRange: "193",
+                region: "Helsinki",
+                dataCenter: "Azure",
+                basePing: 40
             },
             "Switzerland": {
                 flag: "🇨🇭",
-                ipRange: "185"
-            },
-            "Bahrain": {
-                flag: "🇧🇭",
-                ipRange: "157"
-            },
-            "Qatar": {
-                flag: "🇶🇦",
-                ipRange: "82"
-            },
-            "Bangladesh": {
-                flag: "🇧🇩",
-                ipRange: "103"
+                ipRange: "185",
+                region: "Zurich",
+                dataCenter: "Google Cloud",
+                basePing: 50
             },
             "Germany": {
                 flag: "🇩🇪",
-                ipRange: "195"
+                ipRange: "195",
+                region: "Frankfurt",
+                dataCenter: "Amazon AWS",
+                basePing: 65
             },
             "Netherlands": {
                 flag: "🇳🇱",
-                ipRange: "176"
+                ipRange: "176",
+                region: "Amsterdam",
+                dataCenter: "Digital Ocean",
+                basePing: 70
+            },
+            "France": {
+                flag: "🇫🇷",
+                ipRange: "188",
+                region: "Paris",
+                dataCenter: "OVH",
+                basePing: 78
+            },
+            "United Kingdom": {
+                flag: "🇬🇧",
+                ipRange: "178",
+                region: "London",
+                dataCenter: "Microsoft",
+                basePing: 82
+            },
+            "United States": {
+                flag: "🇺🇸",
+                ipRange: "104",
+                region: "Virginia",
+                dataCenter: "AWS",
+                basePing: 120
             },
             "Singapore": {
                 flag: "🇸🇬",
-                ipRange: "128"
+                ipRange: "128",
+                region: "Singapore Central",
+                dataCenter: "Google Cloud",
+                basePing: 95
+            },
+            "Japan": {
+                flag: "🇯🇵",
+                ipRange: "133",
+                region: "Tokyo",
+                dataCenter: "Linode",
+                basePing: 110
+            },
+            "Australia": {
+                flag: "🇦🇺",
+                ipRange: "144",
+                region: "Sydney",
+                dataCenter: "AWS",
+                basePing: 160
+            },
+            "India": {
+                flag: "🇮🇳",
+                ipRange: "150",
+                region: "Mumbai",
+                dataCenter: "Azure",
+                basePing: 130
+            },
+            "UAE": {
+                flag: "🇦🇪",
+                ipRange: "45",
+                region: "Dubai",
+                dataCenter: "Alibaba Cloud",
+                basePing: 85
+            },
+            "Brazil": {
+                flag: "🇧🇷",
+                ipRange: "189",
+                region: "São Paulo",
+                dataCenter: "Oracle Cloud",
+                basePing: 180
+            },
+            "Canada": {
+                flag: "🇨🇦",
+                ipRange: "99",
+                region: "Toronto",
+                dataCenter: "IBM Cloud",
+                basePing: 115
+            },
+            "South Korea": {
+                flag: "🇰🇷",
+                ipRange: "175",
+                region: "Seoul",
+                dataCenter: "AWS",
+                basePing: 125
+            },
+            "Bahrain": {
+                flag: "🇧🇭",
+                ipRange: "157",
+                region: "Manama",
+                dataCenter: "AWS Middle East",
+                basePing: 90
+            },
+            "Qatar": {
+                flag: "🇶🇦",
+                ipRange: "82",
+                region: "Doha",
+                dataCenter: "Google Cloud",
+                basePing: 88
             }
         };
 
         // تعریف متغیرهای عمومی
         let pingResults = [];
         let pingChart = null;
+        let userLocationData = null;
+
+        // نمایش موقعیت کاربر
+        function showUserLocation() {
+            document.getElementById('locationInfo').classList.remove('hidden');
+            
+            // شبیه‌سازی دریافت اطلاعات موقعیت کاربر
+            setTimeout(() => {
+                userLocationData = {
+                    country: "Iran",
+                    city: "Tehran",
+                    region: "Tehran Province",
+                    isp: "Irancell",
+                    latitude: 35.6892,
+                    longitude: 51.3890
+                };
+                
+                document.getElementById('userCountry').textContent = userLocationData.country;
+                document.getElementById('userCity').textContent = userLocationData.city;
+                document.getElementById('userRegion').textContent = userLocationData.region;
+                document.getElementById('userISP').textContent = userLocationData.isp;
+                
+                updatePingStatus('testing');
+                
+                // شبیه‌سازی تست پینگ
+                setTimeout(() => {
+                    updatePingStatus('completed', 85);
+                }, 2000);
+            }, 1500);
+        }
+        
+        // بروزرسانی وضعیت پینگ کاربر
+        function updatePingStatus(status, pingValue = null) {
+            const pingIndicator = document.getElementById('pingIndicator');
+            const pingStatus = document.getElementById('pingStatus');
+            
+            if (status === 'testing') {
+                pingIndicator.className = 'ping-indicator';
+                pingIndicator.style.backgroundColor = '#94a3b8';
+                pingStatus.textContent = 'در حال تست پینگ...';
+                return;
+            }
+            
+            if (status === 'completed' && pingValue !== null) {
+                let pingClass, statusText;
+                
+                if (pingValue < 80) {
+                    pingClass = 'good';
+                    statusText = `پینگ عالی: ${pingValue}ms`;
+                } else if (pingValue < 120) {
+                    pingClass = 'medium';
+                    statusText = `پینگ متوسط: ${pingValue}ms`;
+                } else {
+                    pingClass = 'bad';
+                    statusText = `پینگ ضعیف: ${pingValue}ms`;
+                }
+                
+                pingIndicator.className = `ping-indicator ${pingClass}`;
+                pingStatus.textContent = statusText;
+            }
+        }
 
         // تولید IP تصادفی
         function generateRandomIP(country) {
@@ -468,22 +737,47 @@
             return `${baseIp}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
         }
 
-        // تولید پینگ تصادفی
-        function getRandomPing(country) {
-            const basePing = {
-                "Finland": 40,
-                "Switzerland": 50,
-                "Germany": 65,
-                "Netherlands": 70,
-                "Singapore": 95,
-                "Bahrain": 110,
-                "Qatar": 125,
-                "Bangladesh": 150
-            };
+        // شبیه‌سازی پینگ واقعی‌تر
+        function simulateRealisticPing(country) {
+            const basePing = countries[country].basePing;
             
-            const base = basePing[country] || 100;
-            const variation = Math.floor(Math.random() * 30) - 10;
-            return Math.max(15, base + variation);
+            // افزودن تغییرات واقعی‌تر به پینگ
+            const latencyVariation = Math.floor(Math.random() * 20) - 5;
+            
+            // شبیه‌سازی کیفیت اتصال کاربر
+            const connectionQuality = Math.random();
+            let qualityFactor = 1;
+            
+            if (connectionQuality < 0.1) {
+                // اتصال ضعیف
+                qualityFactor = 1.5;
+            } else if (connectionQuality > 0.85) {
+                // اتصال عالی
+                qualityFactor = 0.9;
+            }
+            
+            // احتساب تأثیر جغرافیایی
+            let geoFactor = 1;
+            if (userLocationData) {
+                // اگر کاربر در آسیا باشد، پینگ به سرورهای آسیایی بهتر خواهد بود
+                if (userLocationData.country === "Iran") {
+                    if (["Singapore", "India", "UAE", "Bahrain", "Qatar"].includes(country)) {
+                        geoFactor = 0.85;
+                    } else if (["Finland", "Germany", "Switzerland", "Netherlands", "France", "United Kingdom"].includes(country)) {
+                        geoFactor = 0.95;
+                    } else if (["United States", "Canada", "Brazil", "Australia"].includes(country)) {
+                        geoFactor = 1.2;
+                    }
+                }
+            }
+            
+            // محاسبه نهایی پینگ
+            let finalPing = Math.max(15, Math.round((basePing + latencyVariation) * qualityFactor * geoFactor));
+            
+            // افزودن نوسانات کوچک تصادفی
+            finalPing += Math.floor(Math.random() * 3);
+            
+            return finalPing;
         }
 
         // کپی کردن متن
@@ -532,8 +826,44 @@
             }, 1500);
         }
 
+        // شبیه‌سازی تست جامع پینگ
+        async function simulateComprehensivePingTest() {
+            // نمایش وضعیت در حال تست
+            const pingElement = document.createElement('div');
+            pingElement.className = 'fixed top-0 left-0 w-full bg-blue-500 text-white text-center py-2 z-50';
+            pingElement.innerHTML = 'در حال انجام تست پینگ... <span id="pingProgressPercent">0%</span>';
+            document.body.appendChild(pingElement);
+            
+            const progressSpan = document.getElementById('pingProgressPercent');
+            
+            // ایجاد تأخیر واقعی‌تر برای هر کشور
+            let completedTests = 0;
+            const totalTests = Object.keys(countries).length;
+            
+            for (let i = 0; i < 5; i++) {
+                await new Promise(resolve => setTimeout(resolve, 300));
+                const progress = Math.min(100, Math.round((i / 5) * 20));
+                progressSpan.textContent = `${progress}%`;
+            }
+            
+            // انجام تست پینگ برای تمامی کشورها
+            for (let country in countries) {
+                // شبیه‌سازی زمان تست برای هر کشور (بین 100 تا 500 میلی‌ثانیه)
+                const testTime = 100 + Math.random() * 400;
+                await new Promise(resolve => setTimeout(resolve, testTime));
+                
+                completedTests++;
+                const progress = Math.min(100, Math.round((completedTests / totalTests) * 100));
+                progressSpan.textContent = `${progress}%`;
+            }
+            
+            document.body.removeChild(pingElement);
+        }
+
         // بررسی بهترین کشور
         async function findBestCountry() {
+            showUserLocation();
+            
             const checkBtn = document.getElementById("checkBtn");
             checkBtn.disabled = true;
             checkBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> در حال بررسی...`;
@@ -541,14 +871,14 @@
             const resultTable = document.getElementById("resultTable");
             resultTable.innerHTML = `
                 <tr class="text-center text-gray-500">
-                    <td colspan="5" class="py-8">
+                    <td colspan="6" class="py-8">
                         <i class="fas fa-spinner fa-pulse text-blue-500 text-2xl mb-2"></i>
                         <p>در حال بررسی سرورها...</p>
                     </td>
                 </tr>
             `;
             
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            await simulateComprehensivePingTest();
             
             let results = [];
             let bestPing = 9999;
@@ -559,13 +889,15 @@
             
             for (let country in countries) {
                 let ip = generateRandomIP(country);
-                let ping = getRandomPing(country);
+                let ping = simulateRealisticPing(country);
                 totalPing += ping;
                 
                 let result = {
                     country: country,
                     flag: countries[country].flag,
                     ip: ip,
+                    region: countries[country].region,
+                    dataCenter: countries[country].dataCenter,
                     ping: ping,
                     suitable: ping < 100
                 };
@@ -581,6 +913,9 @@
                 if (ping < 100) {
                     suitableServers++;
                 }
+                
+                // شبیه‌سازی تأخیر بین تست‌ها
+                await new Promise(resolve => setTimeout(resolve, 50));
             }
             
             results.sort((a, b) => a.ping - b.ping);
@@ -617,6 +952,10 @@
                                 ${result.ip}
                                 <span class="tooltiptext">کپی شد!</span>
                             </div>
+                        </td>
+                        <td class="py-3 text-sm text-gray-700">
+                            <div>${result.region}</div>
+                            <div class="text-xs text-gray-500">${result.dataCenter}</div>
                         </td>
                         <td class="py-3 ${pingClass} font-bold">${result.ping} ms</td>
                         <td class="py-3">${statusIcon}</td>
@@ -657,9 +996,12 @@
                 pingChart.destroy();
             }
             
-            const labels = results.map(r => r.country);
-            const data = results.map(r => r.ping);
-            const backgroundColors = results.map(r => r.ping < 80 ? 'rgba(16, 185, 129, 0.7)' : r.ping < 120 ? 'rgba(245, 158, 11, 0.7)' : 'rgba(239, 68, 68, 0.7)');
+            // نمایش 10 کشور برتر برای وضوح بیشتر در نمودار
+            const topResults = results.slice(0, 10);
+            
+            const labels = topResults.map(r => `${r.flag} ${r.country}`);
+            const data = topResults.map(r => r.ping);
+            const backgroundColors = topResults.map(r => r.ping < 80 ? 'rgba(16, 185, 129, 0.7)' : r.ping < 120 ? 'rgba(245, 158, 11, 0.7)' : 'rgba(239, 68, 68, 0.7)');
             
             pingChart = new Chart(ctx, {
                 type: 'bar',
@@ -688,6 +1030,18 @@
                     plugins: {
                         legend: {
                             display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `پینگ: ${context.raw} میلی‌ثانیه`;
+                                },
+                                afterLabel: function(context) {
+                                    const index = context.dataIndex;
+                                    const country = topResults[index];
+                                    return `منطقه: ${country.region}, سرور: ${country.dataCenter}`;
+                                }
+                            }
                         }
                     }
                 }
@@ -717,9 +1071,13 @@
                                 <span class="text-sm">${server.flag}</span> ${server.country} DNS
                                 ${index === 0 ? '<span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded ml-1">بهترین</span>' : ''}
                             </h4>
-                            <div class="tooltip copyable bg-gray-100 p-2 rounded text-sm" onclick="copyText(this)">
+                            <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
                                 ${server.ip}
                                 <span class="tooltiptext">کپی شد!</span>
+                            </div>
+                            <div class="flex justify-between mt-2 text-xs text-gray-500">
+                                <span>${server.region}</span>
+                                <span class="${server.ping < 80 ? "ping-good" : server.ping < 120 ? "ping-medium" : "ping-bad"} font-bold">${server.ping} ms</span>
                             </div>
                         </div>
                     `).join('')}
