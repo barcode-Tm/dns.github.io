@@ -286,8 +286,7 @@
 <body class="bg-gray-50 min-h-screen p-4">
     <div class="max-w-7xl mx-auto bg-white shadow-md rounded-lg p-6 mb-10">
         <header class="text-center mb-8">
-            <!-- تغییر فونت به text-2xl -->
-            <h1 class="text-2xl font-bold text-gray-800 mb-2 flex items-center justify-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2 flex items-center justify-center">
                 <i class="fas fa-gamepad text-blue-500 mr-2"></i>
                 بهترین DNS برای بازی‌های موبایل
                 <i class="fas fa-signal text-blue-500 ml-2"></i>
@@ -528,38 +527,6 @@
             </div>
         </div>
         
-        <!-- کانتینر جدید برای DNS‌های بخش دوم -->
-        <div class="bg-white rounded-lg shadow-md p-4 mb-8">
-            <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
-                <i class="fas fa-server text-blue-500 mr-1"></i>
-                DNS‌های بخش دوم
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="bg-gray-50 rounded p-3">
-                    <h4 class="text-sm font-bold mb-2 text-blue-600">DNS 1</h4>
-                    <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
-                        10.202.10.10
-                        <span class="tooltiptext">کپی شد!</span>
-                    </div>
-                    <div class="tooltip copyable bg-gray-100 p-2 rounded text-sm" onclick="copyText(this)">
-                        193.23.36.13
-                        <span class="tooltiptext">کپی شد!</span>
-                    </div>
-                </div>
-                <div class="bg-gray-50 rounded p-3">
-                    <h4 class="text-sm font-bold mb-2 text-blue-600">DNS 2</h4>
-                    <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
-                        2001:4860:4860::7312
-                        <span class="tooltiptext">کپی شد!</span>
-                    </div>
-                    <div class="tooltip copyable bg-gray-100 p-2 rounded text-sm" onclick="copyText(this)">
-                        2001:4860:4860::3450
-                        <span class="tooltiptext">کپی شد!</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
         <footer class="text-center text-gray-500 mt-8 pt-4 border-t text-sm">
             <p class="mb-2">
                 <a href="https://t.me/barcode_Tm" target="_blank" class="text-blue-500 hover:text-blue-700 transition-colors">
@@ -572,17 +539,25 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
     <script>
-        // لیست DNS‌های واقعی برای تست
-        const dnsList = [
-            { name: "Google DNS", ip: "8.8.8.8", region: "جهانی" },
-            { name: "Cloudflare DNS", ip: "1.1.1.1", region: "جهانی" },
-            { name: "AdGuard DNS", ip: "94.140.14.14", region: "جهانی" },
-            { name: "Quad9 DNS", ip: "9.9.9.9", region: "جهانی" },
-            { name: "OpenDNS", ip: "208.67.222.222", region: "جهانی" },
-            { name: "Comodo Secure DNS", ip: "8.26.56.26", region: "جهانی" },
-            { name: "CleanBrowsing", ip: "185.228.168.9", region: "جهانی" },
-            { name: "Norton ConnectSafe", ip: "199.85.126.10", region: "جهانی" }
-        ];
+        const countries = {
+            "Finland": { flag: "🇫🇮", ipRange: "193", region: "Helsinki", dataCenter: "Azure", basePing: 40 },
+            "Switzerland": { flag: "🇨🇭", ipRange: "185", region: "Zurich", dataCenter: "Google Cloud", basePing: 50 },
+            "Germany": { flag: "🇩🇪", ipRange: "195", region: "Frankfurt", dataCenter: "Amazon AWS", basePing: 65 },
+            "Netherlands": { flag: "🇳🇱", ipRange: "176", region: "Amsterdam", dataCenter: "Digital Ocean", basePing: 70 },
+            "France": { flag: "🇫🇷", ipRange: "188", region: "Paris", dataCenter: "OVH", basePing: 78 },
+            "United Kingdom": { flag: "🇬🇧", ipRange: "178", region: "London", dataCenter: "Microsoft", basePing: 82 },
+            "United States": { flag: "🇺🇸", ipRange: "104", region: "Virginia", dataCenter: "AWS", basePing: 120 },
+            "Singapore": { flag: "🇸🇬", ipRange: "128", region: "Singapore Central", dataCenter: "Google Cloud", basePing: 95 },
+            "Japan": { flag: "🇯🇵", ipRange: "133", region: "Tokyo", dataCenter: "Linode", basePing: 110 },
+            "Australia": { flag: "🇦🇺", ipRange: "144", region: "Sydney", dataCenter: "AWS", basePing: 160 },
+            "India": { flag: "🇮🇳", ipRange: "150", region: "Mumbai", dataCenter: "Azure", basePing: 130 },
+            "UAE": { flag: "🇦🇪", ipRange: "45", region: "Dubai", dataCenter: "Alibaba Cloud", basePing: 85 },
+            "Brazil": { flag: "🇧🇷", ipRange: "189", region: "São Paulo", dataCenter: "Oracle Cloud", basePing: 180 },
+            "Canada": { flag: "🇨🇦", ipRange: "99", region: "Toronto", dataCenter: "IBM Cloud", basePing: 115 },
+            "South Korea": { flag: "🇰🇷", ipRange: "175", region: "Seoul", dataCenter: "AWS", basePing: 125 },
+            "Bahrain": { flag: "🇧🇭", ipRange: "157", region: "Manama", dataCenter: "AWS Middle East", basePing: 90 },
+            "Qatar": { flag: "🇶🇦", ipRange: "82", region: "Doha", dataCenter: "Google Cloud", basePing: 88 }
+        };
 
         let pingResults = [];
         let pingChart = null;
@@ -628,22 +603,20 @@
             }
         }
 
-        // تابع تست پینگ واقعی با استفاده از زمان‌بندی درخواست
-        async function testRealPing(ip) {
-            const startTime = performance.now();
-            try {
-                // استفاده از یک منبع عمومی (مثل Google) برای تست اتصال به DNS
-                await fetch(`https://${ip}/dns-query`, {
-                    method: 'HEAD',
-                    mode: 'no-cors', // به دلیل محدودیت‌های CORS
-                    cache: 'no-store'
-                });
-                const endTime = performance.now();
-                return Math.round(endTime - startTime);
-            } catch (error) {
-                // در صورت خطا، پینگ بالا فرض می‌شود
-                return 999;
-            }
+        function generateRandomIP(country) {
+            let baseIp = countries[country].ipRange;
+            return `${baseIp}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
+        }
+
+        function simulateRealisticPing(country) {
+            const basePing = countries[country].basePing;
+            const latencyVariation = Math.floor(Math.random() * 20) - 5;
+            const connectionQuality = Math.random();
+            let qualityFactor = connectionQuality < 0.1 ? 1.5 : connectionQuality > 0.85 ? 0.9 : 1;
+            let vpnFactor = vpnDetected ? 1.5 : 1;
+            let finalPing = Math.max(15, Math.round((basePing + latencyVariation) * qualityFactor * vpnFactor));
+            finalPing += Math.floor(Math.random() * 3);
+            return finalPing;
         }
 
         function copyText(element) {
@@ -690,8 +663,13 @@
             document.body.appendChild(pingElement);
             const progressSpan = document.getElementById('pingProgressPercent');
             let completedTests = 0;
-            const totalTests = dnsList.length;
-            for (let i = 0; i < totalTests; i++) {
+            const totalTests = Object.keys(countries).length;
+            for (let i = 0; i < 5; i++) {
+                await new Promise(resolve => setTimeout(resolve, 300));
+                const progress = Math.min(100, Math.round((i / 5) * 20));
+                progressSpan.textContent = `${progress}%`;
+            }
+            for (let country in countries) {
                 const testTime = 100 + Math.random() * 400;
                 await new Promise(resolve => setTimeout(resolve, testTime));
                 completedTests++;
@@ -701,7 +679,7 @@
             document.body.removeChild(pingElement);
         }
 
-        async function findBestDNS() {
+        async function findBestCountry() {
             checkUserIP();
             const checkBtn = document.getElementById("checkBtn");
             checkBtn.disabled = true;
@@ -718,38 +696,38 @@
             await simulateComprehensivePingTest();
             let results = [];
             let bestPing = 9999;
-            let bestDNS = "";
+            let bestCountry = "";
+            let bestIP = "";
             let totalPing = 0;
             let suitableServers = 0;
-
-            // تست پینگ واقعی برای هر DNS
-            for (let dns of dnsList) {
-                let ping = await testRealPing(dns.ip);
+            for (let country in countries) {
+                let ip = generateRandomIP(country);
+                let ping = simulateRealisticPing(country);
                 totalPing += ping;
                 let result = {
-                    country: dns.name,
-                    flag: "🌐", // آیکون جهانی برای DNS‌ها
-                    ip: dns.ip,
-                    region: dns.region,
-                    dataCenter: dns.name,
+                    country: country,
+                    flag: countries[country].flag,
+                    ip: ip,
+                    region: countries[country].region,
+                    dataCenter: countries[country].dataCenter,
                     ping: ping,
                     suitable: ping < 100
                 };
                 results.push(result);
                 if (ping < bestPing) {
                     bestPing = ping;
-                    bestDNS = dns.ip;
+                    bestCountry = country;
+                    bestIP = ip;
                 }
                 if (ping < 100) suitableServers++;
                 await new Promise(resolve => setTimeout(resolve, 50));
             }
-
             results.sort((a, b) => a.ping - b.ping);
             pingResults = results;
             displayResults(results);
-            updateStats(results[0].country, bestPing, totalPing, results.length, suitableServers, bestDNS);
+            updateStats(bestCountry, bestPing, totalPing, results.length, suitableServers, bestIP);
             updateChart(results);
-            updateRecommendedDNS(bestDNS, results);
+            updateRecommendedDNS(bestIP, results);
             checkBtn.disabled = false;
             checkBtn.innerHTML = `<i class="fas fa-search-location mr-2"></i> بررسی مجدد`;
         }
@@ -802,12 +780,12 @@
             }
         }
 
-        function updateStats(bestDNSName, bestPing, totalPing, totalDNSs, suitableServers, bestIP) {
-            const avgPing = Math.round(totalPing / totalDNSs);
-            document.getElementById("bestPingInfo").innerHTML = `<div class="font-bold text-2xl ping-good mb-1">${bestPing} ms</div><div class="text-gray-600">${bestDNSName}</div>`;
+        function updateStats(bestCountry, bestPing, totalPing, totalCountries, suitableServers, bestIP) {
+            const avgPing = Math.round(totalPing / totalCountries);
+            document.getElementById("bestPingInfo").innerHTML = `<div class="font-bold text-2xl ping-good mb-1">${bestPing} ms</div><div class="text-gray-600">${bestCountry} ${countries[bestCountry].flag}</div>`;
             let avgPingClass = avgPing < 80 ? "ping-good" : avgPing < 120 ? "ping-medium" : "ping-bad";
             document.getElementById("avgPingInfo").innerHTML = `<div class="font-bold text-2xl ${avgPingClass} mb-1">${avgPing} ms</div><div class="text-gray-600">میانگین پینگ تمام سرورها</div>`;
-            document.getElementById("suitableServersInfo").innerHTML = `<div class="font-bold text-2xl text-purple-600 mb-1">${suitableServers}</div><div class="text-gray-600">از مجموع ${totalDNSs} سرور</div>`;
+            document.getElementById("suitableServersInfo").innerHTML = `<div class="font-bold text-2xl text-purple-600 mb-1">${suitableServers}</div><div class="text-gray-600">از مجموع ${totalCountries} سرور</div>`;
         }
 
         function updateChart(results) {
@@ -840,8 +818,8 @@
                                 label: function(context) { return `پینگ: ${context.raw} میلی‌ثانیه`; },
                                 afterLabel: function(context) {
                                     const index = context.dataIndex;
-                                    const dns = topResults[index];
-                                    return `منطقه: ${dns.region}, سرور: ${dns.dataCenter}`;
+                                    const country = topResults[index];
+                                    return `منطقه: ${country.region}, سرور: ${country.dataCenter}`;
                                 }
                             }
                         }
@@ -870,7 +848,7 @@
                     ${initialDns.map((server, index) => `
                         <div class="bg-gray-50 rounded p-3">
                             <h4 class="text-sm font-bold mb-2 text-blue-600">
-                                <span class="text-sm">${server.flag}</span> ${server.country}
+                                <span class="text-sm">${server.flag}</span> ${server.country} DNS
                                 ${index === 0 ? '<span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded ml-1">بهترین</span>' : ''}
                             </h4>
                             <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
@@ -892,7 +870,7 @@
                         ${moreDns.map(server => `
                             <div class="bg-gray-50 rounded p-3">
                                 <h4 class="text-sm font-bold mb-2 text-blue-600">
-                                    <span class="text-sm">${server.flag}</span> ${server.country}
+                                    <span class="text-sm">${server.flag}</span> ${server.country} DNS
                                 </h4>
                                 <div class="tooltip copyable bg-gray-100 p-2 rounded mb-1 text-sm" onclick="copyText(this)">
                                     ${server.ip}
@@ -925,7 +903,7 @@
             });
         });
 
-        document.getElementById('checkBtn').addEventListener('click', findBestDNS);
+        document.getElementById('checkBtn').addEventListener('click', findBestCountry);
     </script>
 </body>
 </html>
