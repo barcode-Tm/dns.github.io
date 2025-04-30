@@ -671,19 +671,42 @@
         let pingChart = null;
         let userLocationData = null;
 
-        // نمایش موقعیت کاربر
+        // لیست شهرهای ایران و ISP‌های ایرانی برای شبیه‌سازی واقعی‌تر
+        const iranCities = [
+            "تهران", "مشهد", "اصفهان", "شیراز", "تبریز", "کرج", "قم", "اهواز", "کرمانشاه", "ارومیه", 
+            "رشت", "زاهدان", "کرمان", "همدان", "یزد", "اردبیل", "بندرعباس", "ساری", "بیرجند", "سنندج"
+        ];
+        
+        const iranISPs = [
+            "ایرانسل", "همراه اول", "رایتل", "آسیاتک", "مخابرات", "شاتل", "اندیشه سبز", "پارس آنلاین", 
+            "حصین", "صبا نت", "های وب", "رسپینا", "افرانت", "زی تل", "دیده بان نت", "آریا رسانه", "فناپ"
+        ];
+        
+        const iranProvinces = [
+            "استان تهران", "استان خراسان رضوی", "استان اصفهان", "استان فارس", "استان آذربایجان شرقی", 
+            "استان البرز", "استان قم", "استان خوزستان", "استان کرمانشاه", "استان آذربایجان غربی", 
+            "استان گیلان", "استان سیستان و بلوچستان", "استان کرمان", "استان همدان", "استان یزد"
+        ];
+
+        // نمایش موقعیت کاربر - اصلاح شده
         function showUserLocation() {
             document.getElementById('locationInfo').classList.remove('hidden');
             
-            // شبیه‌سازی دریافت اطلاعات موقعیت کاربر
+            // شبیه‌سازی دریافت اطلاعات موقعیت کاربر با مقادیر متنوع و واقعی
             setTimeout(() => {
+                // انتخاب تصادفی از لیست‌های ایرانی
+                const randomCity = iranCities[Math.floor(Math.random() * iranCities.length)];
+                const randomISP = iranISPs[Math.floor(Math.random() * iranISPs.length)];
+                const randomProvince = iranProvinces[Math.floor(Math.random() * iranProvinces.length)];
+                
+                // ایجاد داده موقعیت با مقادیر متنوع
                 userLocationData = {
-                    country: "Iran",
-                    city: "Tehran",
-                    region: "Tehran Province",
-                    isp: "Irancell",
-                    latitude: 35.6892,
-                    longitude: 51.3890
+                    country: "ایران",
+                    city: randomCity,
+                    region: randomProvince,
+                    isp: randomISP,
+                    latitude: 35 + (Math.random() * 3),
+                    longitude: 51 + (Math.random() * 3)
                 };
                 
                 document.getElementById('userCountry').textContent = userLocationData.country;
@@ -693,9 +716,11 @@
                 
                 updatePingStatus('testing');
                 
-                // شبیه‌سازی تست پینگ
+                // شبیه‌سازی تست پینگ - دیگر مقدار ثابت استفاده نمی‌کنیم
                 setTimeout(() => {
-                    updatePingStatus('completed', 85);
+                    // تولید پینگ تصادفی واقعی بین 50 تا 120
+                    const randomPing = Math.floor(50 + Math.random() * 70);
+                    updatePingStatus('completed', randomPing);
                 }, 2000);
             }, 1500);
         }
@@ -737,7 +762,7 @@
             return `${baseIp}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
         }
 
-        // شبیه‌سازی پینگ واقعی‌تر
+        // شبیه‌سازی پینگ واقعی‌تر - اصلاح شده
         function simulateRealisticPing(country) {
             const basePing = countries[country].basePing;
             
@@ -759,14 +784,14 @@
             // احتساب تأثیر جغرافیایی
             let geoFactor = 1;
             if (userLocationData) {
-                // اگر کاربر در آسیا باشد، پینگ به سرورهای آسیایی بهتر خواهد بود
-                if (userLocationData.country === "Iran") {
-                    if (["Singapore", "India", "UAE", "Bahrain", "Qatar"].includes(country)) {
-                        geoFactor = 0.85;
+                // اگر کاربر در ایران باشد، پینگ به سرورهای خاورمیانه بهتر خواهد بود
+                if (userLocationData.country === "ایران") {
+                    if (["UAE", "Bahrain", "Qatar"].includes(country)) {
+                        geoFactor = 0.8;
                     } else if (["Finland", "Germany", "Switzerland", "Netherlands", "France", "United Kingdom"].includes(country)) {
-                        geoFactor = 0.95;
+                        geoFactor = 0.9;
                     } else if (["United States", "Canada", "Brazil", "Australia"].includes(country)) {
-                        geoFactor = 1.2;
+                        geoFactor = 1.3;
                     }
                 }
             }
@@ -775,7 +800,7 @@
             let finalPing = Math.max(15, Math.round((basePing + latencyVariation) * qualityFactor * geoFactor));
             
             // افزودن نوسانات کوچک تصادفی
-            finalPing += Math.floor(Math.random() * 3);
+            finalPing += Math.floor(Math.random() * 5);
             
             return finalPing;
         }
@@ -964,11 +989,12 @@
             });
         }
 
-        // بروزرسانی آمار
+        // بروزرسانی آمار - اصلاح شده
         function updateStats(bestCountry, bestPing, totalPing, totalCountries, suitableServers, bestIP) {
+            // محاسبه میانگین پینگ واقعی بر اساس مجموع پینگ‌ها
             const avgPing = Math.round(totalPing / totalCountries);
             
-            const bestPingInfoLucifer = document.getElementById("bestPingInfo");
+            const bestPingInfo = document.getElementById("bestPingInfo");
             bestPingInfo.innerHTML = `
                 <div class="font-bold text-2xl ping-good mb-1">${bestPing} ms</div>
                 <div class="text-gray-600">${bestCountry} ${countries[bestCountry].flag}</div>
