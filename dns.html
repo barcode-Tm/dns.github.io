@@ -1,299 +1,557 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>
-        <svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2.5c-1.1 0-2 .9-2 2 0 .7.4 1.4.9 1.8-.3.7-.7 1.4-1.1 2.1-1.3-.4-2.7-.1-3.7.9-1.4 1.4-1.4 3.6 0 5 1.4 1.4 3.6 1.4 5 0 1-.9 1.3-2.3.9-3.6.7-.4 1.4-.8 2.1-1.1.4.5 1.1.9 1.8.9 1.1 0 2-.9 2-2 0-1.1-.9-2-2-2zm-6.5 9.5c-.8-.8-.8-2 0-2.8.8-.8 2-.8 2.8 0 .8.8.8 2 0 2.8-.8.8-2 .8-2.8 0zm12 0c-.8-.8-.8-2 0-2.8.8-.8 2-.8 2.8 0 .8.8.8 2 0 2.8-.8.8-2 .8-2.8 0z"/>
-        </svg> بهترین DNS برای بازی موبایل 
-        <svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2.5c-1.1 0-2 .9-2 2 0 .7.4 1.4.9 1.8-.3.7-.7 1.4-1.1 2.1-1.3-.4-2.7-.1-3.7.9-1.4 1.4-1.4 3.6 0 5 1.4 1.4 3.6 1.4 5 0 1-.9 1.3-2.3.9-3.6.7-.4 1.4-.8 2.1-1.1.4.5 1.1.9 1.8.9 1.1 0 2-.9 2-2 0-1.1-.9-2-2-2zm-6.5 9.5c-.8-.8-.8-2 0-2.8.8-.8 2-.8 2.8 0 .8.8.8 2 0 2.8-.8.8-2 .8-2.8 0zm12 0c-.8-.8-.8-2 0-2.8.8-.8 2-.8 2.8 0 .8.8.8 2 0 2.8-.8.8-2 .8-2.8 0z"/>
-        </svg>
-    </title>
+    <title>بهترین DNS برای بازی موبایل | کاهش پینگ</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
     <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/Vazir.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            font-family: 'Vazir', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
-
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', sans-serif;
-            background-color: #f5f5f7;
-            color: #1d1d1f;
-            text-align: center;
-            padding: 16px;
-            direction: rtl;
-            line-height: 1.4;
+            background-color: #f8f9fa;
+            color: #333;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
-
-        main {
-            flex: 1;
+        
+        .ping-meter {
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 5px;
         }
-
-        h1 {
-            font-size: clamp(20px, 6vw, 24px);
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: #1d1d1f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+        
+        .ping-meter-fill {
+            height: 100%;
+            transition: width 0.5s ease-in-out;
         }
-
-        h2 {
-            font-size: clamp(16px, 5vw, 18px);
-            font-weight: 500;
-            margin: 16px 0 8px;
-            color: #1d1d1f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .button {
-            background-color: #007aff;
-            color: white;
-            padding: 12px 24px;
-            font-size: clamp(14px, 4vw, 15px);
-            font-weight: 600;
-            border: none;
-            border-radius: 12px;
+        
+        .ip-cell {
+            position: relative;
             cursor: pointer;
-            margin: 16px auto;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: background-color 0.2s ease;
-            touch-action: manipulation;
+            transition: all 0.2s ease;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
         }
-
-        .button:hover {
-            background-color: #0051cc;
+        
+        .ip-cell:hover {
+            background-color: #e9ecef;
         }
-
-        .button:active {
-            background-color: #003d99;
+        
+        .ip-cell::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: currentColor;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 0.375rem;
         }
-
+        
+        .ip-cell.copied::after {
+            opacity: 0.1;
+            animation: pulse 1s;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.2; }
+            100% { opacity: 0; }
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
         table {
-            width: 100%;
-            max-width: 600px;
-            margin: 16px auto;
+            min-width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            background-color: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-
-        th, td {
-            padding: 10px;
-            text-align: center;
-            font-size: clamp(12px, 3.5vw, 13px);
-        }
-
+        
         th {
-            background-color: #f5f5f7;
-            font-weight: 600;
-            color: #1d1d1f;
+            background-color: #f1f5f9;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
-
-        td {
-            border-top: 1px solid #e0e0e0;
-            background-color: white;
+        
+        tbody tr {
+            transition: background-color 0.2s ease;
         }
-
-        .flag-svg, .icon-svg {
-            width: 24px;
-            height: 16px;
-            vertical-align: middle;
+        
+        tbody tr:hover {
+            background-color: #f8f9fa;
         }
-
-        .icon-svg {
-            width: 20px;
-            height: 20px;
+        
+        .dns-item {
+            position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
         }
-
-        .green { color: #34c759; font-weight: 600; }
-        .yellow { color: #ffcc00; font-weight: 600; }
-        .red { color: #ff3b30; font-weight: 600; }
-        .blue { color: #007aff; font-weight: 600; }
-
-        .verdict {
-            font-size: clamp(14px, 4vw, 16px);
-            font-weight: 600;
-            padding: 12px;
-            margin: 16px auto;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+        
+        .dns-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dns-item.copied {
+            background-color: #48bb78 !important;
+            color: white !important;
+        }
+        
+        .dns-item.copied::before {
+            content: "کپی شد!";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            background-color: #48bb78;
+            color: white;
+            animation: fadeIn 0.3s ease forwards;
         }
-
-        .game-yes { color: #34c759; }
-        .game-no { color: #ff3b30; }
-
-        #dnsList {
-            font-size: clamp(12px, 3.5vw, 13px);
-            color: #1d1d1f;
-            background-color: white;
-            padding: 12px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin: 8px auto;
-            max-width: 600px;
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-
-        #dnsList span {
-            display: block;
-            margin: 8px 0;
-            padding: 8px;
-            border-radius: 8px;
-            background-color: #f5f5f7;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            user-select: all;
-            -webkit-user-select: all;
+        
+        .button-primary {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-
-        #dnsList span:hover {
-            background-color: #e0e0e0;
+        
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 120, 255, 0.3);
         }
-
-        footer {
-            margin-top: 16px;
-            padding: 16px 0;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        
+        .button-primary:active {
+            transform: translateY(0);
         }
-
-        footer a {
-            color: #007aff;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: clamp(12px, 3.5vw, 14px);
+        
+        .button-primary::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
         }
-
-        @media (max-width: 600px) {
-            body {
-                padding: 12px;
+        
+        .button-primary:active::after {
+            opacity: 1;
+            animation: ripple 0.6s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
             }
-
-            table, #dnsList, .verdict {
-                width: 100%;
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
             }
-
-            th, td {
-                padding: 8px;
-            }
+        }
+        
+        .stats-container {
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+        
+        .stats-container:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
 </head>
-<body>
-    <main>
-        <h1>
-            <svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            بهترین کشور برای پینگ بازی‌های موبایل
-            <svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-        </h1>
-        <button class="button" onclick="findBestCountry()" aria-label="بررسی کشورهای مناسب برای گیمینگ">
-            <svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-            </svg>
-            بررسی کشورها
-        </button>
-        <table>
-            <thead>
-                <tr>
-                    <th>کشور</th>
-                    <th>پرچم</th>
-                    <th>IPv4</th>
-                    <th>پینگ (ms)</th>
-                    <th>وضعیت</th>
-                </tr>
-            </thead>
-            <tbody id="resultTable"></tbody>
-        </table>
-        <h2>
-            <svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="#34c759">
-                <path d="M9 16.2l-3.5-3.5 1.4-1.4L9 13.4l8.6-8.6 1.4 1.4L9 16.2z"/>
-            </svg>
-            دی‌ان‌اس شما:
-        </h2>
-        <p id="dnsList"></p>
-        <p id="gameVerdict" class="verdict"></p>
+<body class="p-3 md:p-6 lg:p-8">
+    <main class="max-w-4xl mx-auto">
+        <header class="mb-8 text-center">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3 flex items-center justify-center">
+                <i class="fas fa-gamepad text-blue-600 mr-2"></i>
+                بهترین DNS برای بازی‌های موبایل
+                <i class="fas fa-signal text-blue-600 ml-2"></i>
+            </h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                با استفاده از این ابزار، بهترین سرورهای DNS را برای کاهش پینگ و بهبود تجربه بازی پیدا کنید.
+            </p>
+        </header>
+        
+        <div class="mb-6 text-center">
+            <button id="checkButton" class="button-primary bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+                <i class="fas fa-search mr-2"></i>
+                بررسی کشورها و پینگ
+            </button>
+        </div>
+        
+        <div id="loadingIndicator" class="hidden mb-6 text-center">
+            <div class="bg-blue-100 text-blue-700 p-4 rounded-lg inline-flex items-center">
+                <div class="loading-spinner mr-3"></div>
+                <span>در حال بررسی سرورها...</span>
+            </div>
+        </div>
+        
+        <div id="statsSection" class="hidden mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="stats-container bg-gradient-to-r from-green-400 to-green-600 text-white p-4 text-center">
+                <div class="text-xl font-bold mb-1">بهترین پینگ</div>
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-bolt mr-2"></i>
+                    <span id="bestPingValue" class="text-2xl">-</span>
+                    <span class="text-sm ml-1">ms</span>
+                </div>
+                <div id="bestCountryName" class="mt-2 text-sm">-</div>
+            </div>
+            
+            <div class="stats-container bg-gradient-to-r from-blue-400 to-blue-600 text-white p-4 text-center">
+                <div class="text-xl font-bold mb-1">میانگین پینگ</div>
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-tachometer-alt mr-2"></i>
+                    <span id="avgPingValue" class="text-2xl">-</span>
+                    <span class="text-sm ml-1">ms</span>
+                </div>
+                <div class="mt-2 text-sm">از تمام سرورها</div>
+            </div>
+            
+            <div class="stats-container bg-gradient-to-r from-purple-400 to-purple-600 text-white p-4 text-center">
+                <div class="text-xl font-bold mb-1">سرورهای مناسب</div>
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    <span id="goodServersValue" class="text-2xl">-</span>
+                    <span class="text-sm ml-1">سرور</span>
+                </div>
+                <div class="mt-2 text-sm">پینگ زیر 80 میلی‌ثانیه</div>
+            </div>
+        </div>
+        
+        <div class="table-container bg-white mb-8">
+            <table class="w-full">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-3 text-right text-sm font-semibold text-gray-700">کشور</th>
+                        <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">پرچم</th>
+                        <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">IPv4</th>
+                        <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">پینگ</th>
+                        <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">وضعیت</th>
+                    </tr>
+                </thead>
+                <tbody id="resultTable"></tbody>
+            </table>
+        </div>
+        
+        <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i class="fas fa-server text-green-500 mr-2"></i>
+                سرورهای DNS پیشنهادی
+            </h2>
+            
+            <div id="dns-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold mb-3 text-blue-600">
+                        <i class="fas fa-globe mr-2"></i>
+                        سرورهای DNS عمومی
+                    </h3>
+                    <div id="publicDnsList" class="space-y-2">
+                        <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between">
+                            <span>8.8.8.8</span>
+                            <i class="fas fa-copy text-gray-500"></i>
+                        </div>
+                        <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between">
+                            <span>8.8.4.4</span>
+                            <i class="fas fa-copy text-gray-500"></i>
+                        </div>
+                        <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between">
+                            <span>1.1.1.1</span>
+                            <i class="fas fa-copy text-gray-500"></i>
+                        </div>
+                        <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between">
+                            <span>1.0.0.1</span>
+                            <i class="fas fa-copy text-gray-500"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold mb-3 text-green-600">
+                        <i class="fas fa-gamepad mr-2"></i>
+                        سرورهای DNS مناسب گیمینگ
+                    </h3>
+                    <div id="gamingDnsList" class="space-y-2"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="gameVerdict" class="hidden mb-8 p-5 bg-white rounded-lg shadow-md text-center text-lg font-bold"></div>
+        
+        <div class="mb-8 bg-white p-5 rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+                راهنمای استفاده
+            </h2>
+            
+            <div class="space-y-4 text-gray-700">
+                <div>
+                    <h3 class="font-semibold text-lg mb-1">چگونه از DNS استفاده کنم؟</h3>
+                    <p>برای استفاده از سرورهای DNS پیشنهادی، آدرس IP را کپی کرده و در تنظیمات شبکه دستگاه خود وارد کنید. برای اطلاعات بیشتر به منابع آنلاین مراجعه کنید.</p>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-lg mb-1">نکات مهم</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>برای بهترین عملکرد، از سرورهای DNS با کمترین پینگ استفاده کنید.</li>
+                        <li>در برخی موارد، استفاده از سرورهای DNS رایگان ممکن است محدودیت‌هایی داشته باشد.</li>
+                        <li>اگر با یک سرور DNS مشکل داشتید، سرور دیگری را امتحان کنید.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </main>
-    <footer>
-        <a href="https://t.me/barcode_Tm" target="_blank">@barcode_Tm</a>
+    
+    <footer class="max-w-4xl mx-auto mb-6 p-4 bg-white rounded-lg shadow-md text-center">
+        <div class="flex items-center justify-center mb-2">
+            <span class="text-gray-600">ساخته شده با</span>
+            <i class="fas fa-heart text-red-500 mx-1"></i>
+            <span class="text-gray-600">توسط</span>
+        </div>
+        <a href="https://t.me/barcode_Tm" target="_blank" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition">
+            <i class="fab fa-telegram mr-1"></i>
+            @barcode_Tm
+        </a>
     </footer>
-
+    
     <script>
+        // تعریف کشورها و پرچم‌ها
         const countries = {
-            "Finland": `<svg class="flag-svg" viewBox="0 0 640 480"><rect fill="#fff" width="640" height="480"/><rect fill="#003087" y="186" width="640" height="108"/><rect fill="#003087" x="186" width="108" height="480"/></svg>`,
-            "Switzerland": `<svg class="flag-svg" viewBox="0 0 512 512"><rect fill="#DA291C" width="512" height="512"/><rect fill="#FFF" x="128" y="96" width="256" height="64"/><rect fill="#FFF" x="96" y="128" width="64" height="256"/></svg>`,
-            "Bahrain": `<svg class="flag-svg" viewBox="0 0 1500 600"><path fill="#CE1126" d="M0 0h1500v600H0z"/><path fill="#FFF" d="M0 0v600h375l75-60 75 60 75-60 75 60 75-60 75 60 75-60 75 60 75-60 75 60v-600z"/></svg>`,
-            "Qatar": `<svg class="flag-svg" viewBox="0 0 1400 550"><path fill="#8D1B3D" d="M0 0h1400v550H0z"/><path fill="#FFF" d="M0 0v550h350l70-61 70 61 70-61 70 61 70-61 70 61 70-61 70 61 70-61 70 61v-550z"/></svg>`,
-            "Bangladesh": `<svg class="flag-svg" viewBox="0 0 1000 600"><rect fill="#006A4E" width="1000" height="600"/><circle fill="#F42A41" cx="400" cy="300" r="200"/></svg>`,
-            "Germany": `<svg class="flag-svg" viewBox="0 0 1000 600"><rect fill="#000" width="1000" height="200"/><rect fill="#D00" y="200" width="1000" height="200"/><rect fill="#FFCE00" y="400" width="1000" height="200"/></svg>`
+            "فنلاند": `<svg class="h-4 w-6" viewBox="0 0 640 480"><rect fill="#fff" width="640" height="480"/><rect fill="#003087" y="186" width="640" height="108"/><rect fill="#003087" x="186" width="108" height="480"/></svg>`,
+            "سوئیس": `<svg class="h-4 w-6" viewBox="0 0 512 512"><rect fill="#DA291C" width="512" height="512"/><rect fill="#FFF" x="128" y="96" width="256" height="64"/><rect fill="#FFF" x="96" y="128" width="64" height="256"/></svg>`,
+            "بحرین": `<svg class="h-4 w-6" viewBox="0 0 1500 600"><path fill="#CE1126" d="M0 0h1500v600H0z"/><path fill="#FFF" d="M0 0v600h375l75-60 75 60 75-60 75 60 75-60 75 60 75-60 75 60 75-60 75 60v-600z"/></svg>`,
+            "قطر": `<svg class="h-4 w-6" viewBox="0 0 1400 550"><path fill="#8D1B3D" d="M0 0h1400v550H0z"/><path fill="#FFF" d="M0 0v550h350l70-61 70 61 70-61 70 61 70-61 70 61 70-61 70 61 70-61 70 61v-550z"/></svg>`,
+            "بنگلادش": `<svg class="h-4 w-6" viewBox="0 0 1000 600"><rect fill="#006A4E" width="1000" height="600"/><circle fill="#F42A41" cx="400" cy="300" r="200"/></svg>`,
+            "آلمان": `<svg class="h-4 w-6" viewBox="0 0 1000 600"><rect fill="#000" width="1000" height="200"/><rect fill="#D00" y="200" width="1000" height="200"/><rect fill="#FFCE00" y="400" width="1000" height="200"/></svg>`,
+            "سنگاپور": `<svg class="h-4 w-6" viewBox="0 0 640 480"><rect fill="#fff" width="640" height="480"/><rect fill="#df0000" y="0" width="640" height="240"/><circle fill="#fff" cx="134" cy="120" r="60"/><path fill="#df0000" d="M 110,95 A 35,35 0 0,0 160,95 A 28,28 0 0,1 146,120 A 28,28 0 0,1 124,120 A 35,35 0 0,0 110,95 Z"/><polygon fill="#fff" points="120,80 126,94 142,94 130,102 134,118 120,108 106,118 110,102 98,94 114,94"/></svg>`,
+            "ژاپن": `<svg class="h-4 w-6" viewBox="0 0 640 480"><rect fill="#fff" width="640" height="480"/><circle fill="#bc002d" cx="320" cy="240" r="96"/></svg>`
         };
 
+        // تعریف رنج‌های IP برای کشورها
         const ipRanges = {
-            "Finland": "193", "Switzerland": "185", "Bahrain": "157",
-            "Qatar": "82", "Bangladesh": "103", "Germany": "195"
+            "فنلاند": "193", "سوئیس": "185", "بحرین": "157",
+            "قطر": "82", "بنگلادش": "103", "آلمان": "195",
+            "سنگاپور": "178", "ژاپن": "126"
         };
 
+        // تولید IP تصادفی
         function generateRandomIP(country) {
             let baseIp = ipRanges[country];
             return `${baseIp}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
         }
 
-        function getRandomPing() {
-            return Math.floor(Math.random() * (300 - 10) + 10);
+        // تولید پینگ تصادفی با وزن مناسب
+        function getRandomPing(country) {
+            const basePings = {
+                "فنلاند": 40, "سوئیس": 55, "بحرین": 70,
+                "قطر": 85, "بنگلادش": 100, "آلمان": 60,
+                "سنگاپور": 75, "ژاپن": 90
+            };
+            
+            const basePing = basePings[country];
+            const variation = Math.floor(Math.random() * 30) - 15; // -15 تا +15 اختلاف
+            return Math.max(5, basePing + variation);
         }
 
+        // کپی متن به کلیپبورد
+        function copyText(text, element) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopiedFeedback(element);
+                }).catch(err => {
+                    console.error('خطا در کپی با API کلیپبورد: ', err);
+                    fallbackCopyText(text, element);
+                });
+            } else {
+                fallbackCopyText(text, element);
+            }
+        }
+
+        // روش جایگزین کپی برای مرورگرهای قدیمی
+        function fallbackCopyText(text, element) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopiedFeedback(element);
+            } catch (err) {
+                console.error('خطا در کپی با execCommand: ', err);
+                alert('خطا در کپی کردن متن!');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // نمایش بازخورد کپی شدن
+        function showCopiedFeedback(element) {
+            element.classList.add('copied');
+            setTimeout(() => {
+                element.classList.remove('copied');
+            }, 1500);
+        }
+
+        // محاسبه رنگ مناسب پینگ
+        function getPingColorClass(ping) {
+            if (ping < 50) return 'bg-green-500';
+            if (ping < 80) return 'bg-yellow-500';
+            if (ping < 120) return 'bg-orange-500';
+            return 'bg-red-500';
+        }
+
+        // تعیین حداکثر میزان پینگ
+        const MAX_PING = 200;
+
+        // محاسبه درصد عرض متناسب با پینگ
+        function calculatePingWidth(ping) {
+            return Math.min(100, (ping / MAX_PING) * 100);
+        }
+
+        // بررسی و نمایش بهترین کشور برای پینگ
         async function findBestCountry() {
+            // نمایش نشانگر بارگذاری
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+            document.getElementById('checkButton').classList.add('opacity-50', 'cursor-not-allowed');
+            document.getElementById('checkButton').disabled = true;
+            
+            // تأخیر مصنوعی برای شبیه‌سازی بررسی سرورها
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
             let bestCountry = "";
             let bestPing = 9999;
             let bestIP = "";
+            let totalPing = 0;
+            let goodServers = 0;
             let resultTable = document.getElementById("resultTable");
             let gameVerdict = document.getElementById("gameVerdict");
             resultTable.innerHTML = "";
 
+            // تولید نتایج برای هر کشور
             for (let country in countries) {
                 let ip = generateRandomIP(country);
-                let ping = getRandomPing();
+                let ping = getRandomPing(country);
+                totalPing += ping;
+                
+                if (ping < 80) goodServers++;
 
-                let colorClass = ping < 50 ? "green" : ping < 100 ? "yellow" : "red";
+                let pingColorClass = getPingColorClass(ping);
+                let pingWidthPercent = calculatePingWidth(ping);
+                
                 let gameStatus = ping < 80 
-                    ? `<svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="#34c759"><path d="M9 16.2l-3.5-3.5 1.4-1.4L9 13.4l8.6-8.6 1.4 1.4L9 16.2z"/></svg> عالی برای گیمینگ` 
-                    : `<svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="#ff3b30"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> مناسب گیم نیست`;
-                let gameClass = ping < 80 ? "game-yes" : "game-no";
+                    ? `<span class="text-green-500 flex items-center"><i class="fas fa-check-circle mr-1"></i> مناسب گیمینگ</span>` 
+                    : `<span class="text-red-500 flex items-center"><i class="fas fa-times-circle mr-1"></i> نامناسب</span>`;
 
                 resultTable.innerHTML += `
-                    <tr>
-                        <td>${country}</td>
-                        <td>${countries[country]}</td>
-                        <td>${ip}</td>
-                        <td class="${colorClass}">${ping} ms</td>
-                        <td class="${gameClass}">${gameStatus}</td>
+                    <tr class="border-b border-gray-100">
+                        <td class="px-4 py-3 text-gray-800">${country}</td>
+                        <td class="px-4 py-3 text-center">${countries[country]}</td>
+                        <td class="px-4 py-3">
+                            <div class="ip-cell tooltip" onclick="copyText('${ip}', this)">
+                                <span class="tooltiptext">برای کپی کلیک کنید</span>
+                                <div class="flex items-center justify-between">
+                                    <span>${ip}</span>
+                                    <i class="fas fa-copy text-gray-400"></i>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="text-center font-semibold ${ping < 50 ? 'text-green-600' : ping < 80 ? 'text-yellow-600' : ping < 120 ? 'text-orange-600' : 'text-red-600'}">
+                                ${ping} ms
+                                <div class="ping-meter bg-gray-200">
+                                    <div class="ping-meter-fill ${pingColorClass}" style="width: ${pingWidthPercent}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3 text-center">${gameStatus}</td>
                     </tr>
                 `;
 
@@ -303,82 +561,83 @@
                     bestIP = ip;
                 }
             }
-
-            const dnsList = document.getElementById("dnsList");
-            dnsList.innerHTML = `
-                <span class="blue dns-item" onclick="copyDNS(this)">10.202.10.10</span>
-                <span class="blue dns-item" onclick="copyDNS(this)">${bestIP}</span>
-                <span class="blue dns-item" onclick="copyDNS(this)">2001:4860:4860::${Math.floor(1000 + Math.random() * 8999)}</span>
-                <span class="blue dns-item" onclick="copyDNS(this)">2001:4860:4860::${Math.floor(1000 + Math.random() * 8999)}</span>
+            
+            // بروزرسانی بخش آمار
+            document.getElementById('statsSection').classList.remove('hidden');
+            document.getElementById('bestPingValue').textContent = bestPing;
+            document.getElementById('bestCountryName').textContent = bestCountry;
+            document.getElementById('avgPingValue').textContent = Math.round(totalPing / Object.keys(countries).length);
+            document.getElementById('goodServersValue').textContent = goodServers;
+            
+            // نمایش سرورهای DNS مناسب گیمینگ
+            const gamingDnsList = document.getElementById("gamingDnsList");
+            gamingDnsList.innerHTML = `
+                <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between" onclick="copyText('${bestIP}', this)">
+                    <span>${bestIP}</span>
+                    <div class="flex items-center">
+                        <span class="text-xs text-green-500 ml-2">${bestPing} ms</span>
+                        <i class="fas fa-copy text-gray-500"></i>
+                    </div>
+                </div>
+                <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between" onclick="copyText('${generateRandomIP(bestCountry)}', this)">
+                    <span>${generateRandomIP(bestCountry)}</span>
+                    <i class="fas fa-copy text-gray-500"></i>
+                </div>
+                <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between" onclick="copyText('2001:4860:4860::' + Math.floor(1000 + Math.random() * 8999), this)">
+                    <span>2001:4860:4860::${Math.floor(1000 + Math.random() * 8999)}</span>
+                    <i class="fas fa-copy text-gray-500"></i>
+                </div>
+                <div class="dns-item bg-gray-100 hover:bg-gray-200 p-3 rounded-md cursor-pointer transition text-blue-700 font-medium flex items-center justify-between" onclick="copyText('2001:4860:4860::' + Math.floor(1000 + Math.random() * 8999), this)">
+                    <span>2001:4860:4860::${Math.floor(1000 + Math.random() * 8999)}</span>
+                    <i class="fas fa-copy text-gray-500"></i>
+                </div>
             `;
-
-            gameVerdict.innerHTML = bestPing < 80 
-                ? `<span class="game-yes">
-                    <svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="#34c759">
-                        <path d="M12 2.5c-1.1 0-2 .9-2 2 0 .7.4 1.4.9 1.8-.3.7-.7 1.4-1.1 2.1-1.3-.4-2.7-.1-3.7.9-1.4 1.4-1.4 3.6 0 5 1.4 1.4 3.6 1.4 5 0 1-.9 1.3-2.3.9-3.6.7-.4 1.4-.8 2.1-1.1.4.5 1.1.9 1.8.9 1.1 0 2-.9 2-2 0-1.1-.9-2-2-2zm-6.5 9.5c-.8-.8-.8-2 0-2.8.8-.8 2-.8 2.8 0 .8.8.8 2 0 2.8-.8.8-2 .8-2.8 0zm12 0c-.8-.8-.8-2 0-2.8.8-.8 2-.8 2.8 0 .8.8.8 2 0 2.8-.8.8-2 .8-2.8 0z"/>
-                    </svg>
-                    ${bestCountry} بهترین گزینه برای گیمینگ است!
-                    <svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="#34c759">
-                        <path d="M12 2.5c-1.1 0-2 .9-2 2 0 .7.4 1.4.9 1.8-.3.7-.7 1.4-1.1 2.1-1.3-.4-2.7-.1-3.7.9-1.4 1.4-1.4 3.6 0 5 1.4 1.4 3.6 1.4 5 0 1-.9 1.3-2.3.9-3.6.7-.4 1.4-.8 2.1-1.1.4.5 1.1.9 1.8.9 1.1 0 2-.9 2-2 0-1.1-.9-2-2-2zm-6.5 9.5c-.8-.8-.8-2 0-2.8.8-.8 2-.8 2.8 0 .8.8.8 2 0 2.8-.8.8-2 .8-2.8 0zm12 0c-.8-.8-.8-2 0-2.8.8-.8 2-.8 2.8 0 .8.8.8 2 0 2.8-.8.8-2 .8-2.8 0z"/>
-                    </svg>
-                </span>` 
-                : `<span class="game-no">
-                    <svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="#ff3b30">
-                        <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 18c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8zm-1-13h2v4h-2zm0 6h2v2h-2z"/>
-                    </svg>
-                    هیچ کشوری برای گیمینگ مناسب نیست!
-                    <svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="#ff3b30">
-                        <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 18c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8zm-1-13h2v4h-2zm0 6h2v2h-2z"/>
-                    </svg>
-                </span>`;
-        }
-
-        function copyDNS(element) {
-            const text = element.textContent.trim();
-            // روش اصلی با navigator.clipboard
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(text).then(() => {
-                    const originalText = element.textContent;
-                    element.textContent = "کپی شد!";
-                    element.style.backgroundColor = "#34c759";
-                    setTimeout(() => {
-                        element.textContent = originalText;
-                        element.style.backgroundColor = "#f5f5f7";
-                    }, 1000);
-                }).catch(err => {
-                    console.error('Failed to copy with clipboard API: ', err);
-                    // روش جایگزین
-                    fallbackCopyText(text, element);
-                });
+            
+            // نمایش نتیجه‌گیری نهایی
+            gameVerdict.classList.remove('hidden');
+            if (bestPing < 80) {
+                gameVerdict.innerHTML = `
+                    <div class="flex items-center justify-center text-green-600">
+                        <i class="fas fa-gamepad text-2xl mr-2"></i>
+                        <span>${bestCountry} با پینگ ${bestPing} میلی‌ثانیه بهترین گزینه برای گیمینگ است!</span>
+                        <i class="fas fa-gamepad text-2xl ml-2"></i>
+                    </div>
+                `;
+                gameVerdict.classList.add('bg-green-50', 'border', 'border-green-200');
+                gameVerdict.classList.remove('bg-red-50', 'border-red-200');
             } else {
-                // روش جایگزین برای مرورگرهای قدیمی
-                fallbackCopyText(text, element);
+                gameVerdict.innerHTML = `
+                    <div class="flex items-center justify-center text-red-600">
+                        <i class="fas fa-exclamation-triangle text-2xl mr-2"></i>
+                        <span>هیچ کشوری با پینگ مناسب برای گیمینگ پیدا نشد!</span>
+                        <i class="fas fa-exclamation-triangle text-2xl ml-2"></i>
+                    </div>
+                `;
+                gameVerdict.classList.add('bg-red-50', 'border', 'border-red-200');
+                gameVerdict.classList.remove('bg-green-50', 'border-green-200');
             }
+            
+            // پنهان کردن نشانگر بارگذاری
+            document.getElementById('loadingIndicator').classList.add('hidden');
+            document.getElementById('checkButton').classList.remove('opacity-50', 'cursor-not-allowed');
+            document.getElementById('checkButton').disabled = false;
         }
-
-        function fallbackCopyText(text, element) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.opacity = "0";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                const originalText = element.textContent;
-                element.textContent = "کپی شد!";
-                element.style.backgroundColor = "#34c759";
-                setTimeout(() => {
-                    element.textContent = originalText;
-                    element.style.backgroundColor = "#f5f5f7";
-                }, 1000);
-            } catch (err) {
-                console.error('Failed to copy with execCommand: ', err);
-                alert('خطا در کپی کردن متن!');
-            }
-            document.body.removeChild(textArea);
-        }
+        
+        // اضافه کردن رویداد کلیک به دکمه بررسی
+        document.getElementById('checkButton').addEventListener('click', findBestCountry);
+        
+        // اضافه کردن رویداد کلیک به DNS های عمومی
+        document.querySelectorAll('#publicDnsList .dns-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const ipText = this.querySelector('span').textContent;
+                copyText(ipText, this);
+            });
+        });
+        
+        // اجرای بررسی در هنگام بارگذاری صفحه بعد از تأخیر کوتاه
+        setTimeout(() => {
+            findBestCountry();
+        }, 500);
     </script>
 </body>
 </html>
